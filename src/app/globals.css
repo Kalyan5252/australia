@@ -18,12 +18,31 @@
 
 body {
   color: rgb(var(--foreground-rgb));
+  background: #0c0c0c;
+}
+
+.gradient1 {
+  position: absolute;
+  height: 10px;
+  width: 400px;
+  left: 0;
+  bottom: 0;
+  background: linear-gradient(90deg, #6ece4f, #5be3a8, #4b197d);
+  filter: blur(30px);
+}
+.gradient2 {
+  position: absolute;
+  height: 30px;
+  width: 400px;
+  left: 300px;
+  bottom: 0;
   background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+    90deg,
+    rgba(150, 205, 94, 0.2),
+    rgba(91, 227, 168, 1),
+    rgba(75, 25, 125, 0.5)
+  );
+  filter: blur(40px);
 }
 
 @layer utilities {

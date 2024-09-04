@@ -34,9 +34,9 @@ const Form = () => {
         setIsLoading(true);
 
         const response = await fetch('/api/form', { method: 'GET' });
-        const data: FormItem[] = await response.json();
+        const data = await response.json();
         setFormData(
-          data.map((item) => ({
+          data.map((item: FormItem) => ({
             ...item,
             required: item.type === 'file' ? false : true,
           }))

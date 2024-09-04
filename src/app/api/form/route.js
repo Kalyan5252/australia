@@ -1,5 +1,5 @@
 // import mongoose from 'mongoose';
-import Form from '@/app/components/Form';
+import Form from '@/models/formSchema';
 import { NextResponse } from 'next/server';
 import startDb from '@/app/lib/db';
 

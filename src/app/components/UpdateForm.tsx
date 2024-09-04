@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FormItem, FormData } from '../types';
+import { FormItem, FormData } from '../../types';
 import InputField from './InputField';
 import OtherInputs from './OtherInputs';
 import Loading from './Loading';

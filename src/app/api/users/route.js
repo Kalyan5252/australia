@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import startDb from '@/app/lib/db';
-import User from '../../models/userSchema';
+import User from '@/models/userSchema';
 
 await startDb();
 

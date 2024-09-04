@@ -9,7 +9,7 @@ import InfoModal from './InfoModal';
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { FormItem } from '../types';
+import { FormItem } from '../../types';
 
 const Form = () => {
   const [formData, setFormData] = useState<FormItem[]>([]);

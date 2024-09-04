@@ -1,4 +1,4 @@
-import Users from '../../models/userSchema';
+import Users from '@/models/userSchema';
 import { NextResponse } from 'next/server';
 import startDb from '../../lib/db';
 import jwt, { verify } from 'jsonwebtoken';

@@ -9,14 +9,17 @@ if (!cached) {
 }
 
 export async function startDb() {
-  console.log('env var db:', MONGODBURI);
+  // console.log('env var db:', MONGODBURI);
   if (cached.conn) {
     return cached.conn;
   }
   if (!cached.promise) {
     cached.promise = mongoose
       .connect(MONGODBURI)
-      .then(() => console.log('Connected to Database'))
+      .then(() => {
+        console.log('Connected to Database');
+        return mongoose;
+      })
       .catch((err) => console.log(err));
   }
   cached.promise = await cached.promise;

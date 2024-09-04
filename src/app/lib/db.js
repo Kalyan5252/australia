@@ -16,7 +16,7 @@ export async function startDb() {
   if (!cached.promise) {
     cached.promise = mongoose
       .connect(MONGODBURI)
-      .then(() => {
+      .then((mongoose) => {
         console.log('Connected to Database');
         return mongoose;
       })

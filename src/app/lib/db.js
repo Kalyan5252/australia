@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 
 const MONGODBURI = process.env.MONGODBURI;
+console.log('env var db:', MONGODBURI);
 let cached = global.mongoose;
 
 if (!cached) {
@@ -8,6 +9,7 @@ if (!cached) {
 }
 
 export async function startDb() {
+  console.log('env var db:', MONGODBURI);
   if (cached.conn) {
     return cached.conn;
   }

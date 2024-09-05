@@ -35,6 +35,7 @@ const page = () => {
       if (response) {
         setTimeout(() => {
           window.location.assign('/login');
+          // console.log('logging out');
         }, 2000);
       }
     } catch (error) {

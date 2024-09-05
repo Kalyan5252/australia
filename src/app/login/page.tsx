@@ -21,7 +21,10 @@ const page = () => {
         window.location.assign(`/userBusiness/${response.id}`);
       }
     };
-    verify();
+    const timer = setTimeout(() => {
+      verify();
+    }, 3000);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleSubmit = async () => {

@@ -8,6 +8,8 @@ export async function GET(req) {
     httpOnly: true,
     path: '/',
     maxAge: 0,
+    sameSite: 'lax',
+    secure: true,
   });
   return response;
 }

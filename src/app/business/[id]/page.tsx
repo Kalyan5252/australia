@@ -35,7 +35,6 @@ const page = ({ params }: { params: { id: string } }) => {
       await fetch(`/api/users/${businessId}`, { method: 'GET' })
         .then((res) => res.json())
         .then((res) => {
-          //   console.log(res);
           setData(res);
         });
       setIsLoading(false);

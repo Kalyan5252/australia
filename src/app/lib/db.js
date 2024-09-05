@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 
 const MONGODBURI = process.env.MONGODBURI;
-console.log('env var db:', MONGODBURI);
 let cached = global.mongoose;
 
 if (!cached) {

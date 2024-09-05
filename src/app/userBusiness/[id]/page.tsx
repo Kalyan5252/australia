@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Loading from '@/app/components/Loading';
-import BusinessModal from '@/app/components/BusinessModal';
+import UserBusinessModal from '@/app/components/UserBusinessModal';
 
 interface dataProps {
   businessDescription: string; // MongoDB ObjectId as a string
@@ -35,7 +35,6 @@ const page = ({ params }: { params: { id: string } }) => {
       await fetch(`/api/users/${businessId}`, { method: 'GET' })
         .then((res) => res.json())
         .then((res) => {
-          //   console.log(res);
           setData(res);
         });
       setIsLoading(false);
@@ -44,13 +43,13 @@ const page = ({ params }: { params: { id: string } }) => {
   }, []);
 
   return (
-    <div className="p-16 h-screen">
+    <div className="p-8 lg:p-16 h-screen">
       {isLoading ? (
         <div className="h-full w-full flex justify-center items-center">
           <Loading />
         </div>
       ) : (
-        data && <BusinessModal data={data} />
+        data && <UserBusinessModal data={data} />
       )}
     </div>
   );

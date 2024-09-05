@@ -5,6 +5,7 @@ import { BsTelephone } from 'react-icons/bs';
 import { MdOutlineMailOutline } from 'react-icons/md';
 import { IoGlobeOutline } from 'react-icons/io5';
 import UpdateForm from './UpdateForm';
+import ResetPassword from './ResetPassword';
 
 interface dataProps {
   businessDescription: string; // MongoDB ObjectId as a string
@@ -31,8 +32,9 @@ interface BusinessModalProps {
   data: userProps;
 }
 
-const BusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
+const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
   const [updateForm, setUpdateForm] = useState(false);
+  const [resetModal, setResetModal] = useState(false);
 
   useEffect(() => {
     const verify = async () => {
@@ -65,7 +67,26 @@ const BusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
           setUpdateForm={setUpdateForm}
         />
       )}
+      {resetModal && (
+        <ResetPassword
+          id={data._id}
+          resetModal={resetModal}
+          setResetModal={setResetModal}
+        />
+      )}
       <div className="lg:hidden flex gap-4">
+        <button
+          onClick={() => setUpdateForm(true)}
+          className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
+        >
+          Update Data
+        </button>
+        <button
+          onClick={() => setResetModal(true)}
+          className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
+        >
+          Reset Password
+        </button>
         <button
           onClick={() => {
             handleLogout();
@@ -78,6 +99,18 @@ const BusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
       <div className="flex justify-between items-center">
         <h1 className="text-6xl font-medium">{data.data.companyName}</h1>
         <div className="hidden lg:flex gap-4">
+          <button
+            onClick={() => setUpdateForm(true)}
+            className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
+          >
+            Update Data
+          </button>
+          <button
+            onClick={() => setResetModal(true)}
+            className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
+          >
+            Reset Password
+          </button>
           <button
             onClick={() => {
               handleLogout();
@@ -127,4 +160,4 @@ const BusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
   );
 };
 
-export default BusinessModal;
+export default UserBusinessModal;

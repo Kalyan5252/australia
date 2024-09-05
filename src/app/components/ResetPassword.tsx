@@ -21,9 +21,7 @@ const ResetPassword = ({
         body: JSON.stringify({ ...userData }),
       })
         .then((res) => res.json())
-        .then((res) => {
-          //   console.log(res);
-        });
+        .then((res) => {});
     } catch (err) {
       console.error(err);
       //   if(err?.message)

@@ -44,7 +44,6 @@ export async function PATCH(req, { params }) {
         }
       }
     }
-    console.log(updateFields);
 
     const user = await User.updateOne({ _id: userId }, { $set: updateFields });
     // return NextResponse.json({});

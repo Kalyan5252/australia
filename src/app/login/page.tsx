@@ -18,7 +18,6 @@ const page = () => {
       });
       if (res.ok && res.status !== 401) {
         const response = await res.json();
-        // console.log(response);
         window.location.assign(`/userBusiness/${response.id}`);
       }
     };
@@ -33,8 +32,6 @@ const page = () => {
       });
       if (res.ok) {
         const response = await res.json();
-        // console.log(response);
-        // return toast('Created Account Successfully');
         if (response.status === 'success') {
           toast('Login Successful', {
             position: 'top-center',
@@ -47,11 +44,9 @@ const page = () => {
             draggable: true,
             closeOnClick: true,
           });
-          if (response.role === 'admin') {
-            router.push('/dashboard');
-          } else {
-            router.push(`/userBusiness/${response.id}`);
-          }
+          response.role === 'admin'
+            ? router.push('/dashboard')
+            : router.push(`/userBusiness/${response.id}`);
         } else {
           return toast('Authentication Failed', {
             position: 'top-center',
@@ -110,7 +105,7 @@ const page = () => {
         <div className="flex flex-col gap-2">
           <h1 className="text-xl">Password</h1>
           <input
-            type="text"
+            type="password"
             placeholder="Enter your password"
             className="p-2 text-xl outline-none focus:border-gray-100 bg-transparent text-gray-400 border-b-[1px] border-gray-300 focus:shadow-lg transition-all"
             onChange={(e) => {

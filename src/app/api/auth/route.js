@@ -19,7 +19,6 @@ export async function GET(req) {
   try {
     const cookieStore = cookies();
     const token = cookieStore.get('authKey').value;
-    // console.log(token);
     if (!token || token == '') {
       throw new Error('Login Required');
     }
@@ -28,8 +27,8 @@ export async function GET(req) {
       throw new Error('Session Closed.Please Login');
     }
     const userId = Buffer.from(decoded.id.data).toString('hex');
-    // console.log('hello user:', userId);
-    return NextResponse.json({ id: userId });
+    const user = await Users.findById(userId);
+    return NextResponse.json({ id: userId, role: user.role });
   } catch (error) {
     return NextResponse.json({ error: error.message }, { status: 401 });
   }
@@ -39,7 +38,6 @@ export async function POST(req) {
   try {
     const body = await req.json();
     const { userName, password } = body;
-    // console.log({ userName, password });
     const user = await Users.findOne({ userName });
     if (!user) {
       throw new Error('No Such User Found');
@@ -57,7 +55,6 @@ export async function POST(req) {
       path: '/',
       maxAge: new Date(60 * 3600),
     });
-    // console.log('success');
     return response;
   } catch (error) {
     return NextResponse.json({ status: 'failure', error: error.message });

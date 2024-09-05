@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import InputField from './InputField';
 import OtherInputs from './OtherInputs';
 import { FaArrowRight } from 'react-icons/fa';
@@ -23,24 +23,12 @@ const Form = () => {
 
   useEffect(() => {
     const getFormData = async () => {
-      //   try {
-      //     await fetch('/api/form', { method: 'GET' })
-      //       .then((res) => res.json())
-      //       .then((res) => {console.log(res)
-      //     setFormData(res)
-      //     });
-      //   } catch (error) {}
       try {
         setIsLoading(true);
 
         const response = await fetch('/api/form', { method: 'GET' });
         const data = await response.json();
-        setFormData(
-          data.map((item: FormItem) => ({
-            ...item,
-            required: item.type === 'file' ? false : true,
-          }))
-        );
+        setFormData(data);
       } catch (error) {
         console.error('Failed to fetch form data', error);
       }
@@ -60,8 +48,6 @@ const Form = () => {
     );
   };
 
-  //   useEffect(() => console.log(formData), [formData]);
-
   const handleSubmit = async () => {
     setIsSubmitting(true);
     const transformedData = formData.reduce(
@@ -76,9 +62,14 @@ const Form = () => {
     // console.log(transformedData);
 
     try {
+      const formData = new FormData();
+      formData.append('data', JSON.stringify({ ...transformedData }));
+      if (transformedData.businessLogo)
+        formData.append('image', transformedData.businessLogo);
+
       await fetch('/api/users/', {
         method: 'POST',
-        body: JSON.stringify({ ...transformedData }),
+        body: formData,
       })
         .then((res) => res.json())
         .then((res) => {
@@ -110,6 +101,7 @@ const Form = () => {
             }
           }
           setIsSuccess(true);
+          window.scrollTo(0, 0);
           setUserData({
             userName: res.userName,
             password: res.password,
@@ -144,6 +136,7 @@ const Form = () => {
                 placeholder={item.placeholder}
                 type={item.type}
                 onchange={handleInputChange}
+                key={index}
               />
             ) : (
               <InputField
@@ -151,7 +144,8 @@ const Form = () => {
                 placeholder={item.placeholder}
                 type={item.type}
                 onchange={handleInputChange}
-                required={item.required || false}
+                required={item.required || 'false'}
+                key={index}
               />
             )
           )}

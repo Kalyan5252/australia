@@ -35,7 +35,6 @@ const DashboardList = () => {
     };
     getData();
   }, []);
-  useEffect(() => console.log(data), [data]);
   return (
     <div className="mt-8 h-full overflow-y-scroll">
       {data.map((item, index) => (

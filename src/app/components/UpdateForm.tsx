@@ -23,10 +23,12 @@ const UpdateForm = ({
         const response = await fetch('/api/form', { method: 'GET' });
         const data: FormItem[] = await response.json();
         setFormData(
-          data.map((item) => ({
-            ...item,
-            required: false,
-          }))
+          data
+            .map((item) => ({
+              ...item,
+              required: false,
+            }))
+            .filter((item) => item.type !== 'file')
         );
       } catch (error) {
         console.error('Failed to fetch form data', error);
@@ -34,8 +36,6 @@ const UpdateForm = ({
     };
     getFormData();
   }, []);
-
-  //   useEffect(() => console.log(formData), [formData]);
 
   interface FormData {
     [key: string]: string | File | undefined;

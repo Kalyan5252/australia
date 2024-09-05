@@ -11,21 +11,21 @@ const page = () => {
   const router = useRouter();
   const [userData, setUserData] = useState({ userName: '', password: '' });
 
-  useEffect(() => {
-    const verify = async () => {
-      const res = await fetch('/api/auth/', {
-        method: 'GET',
-      });
-      if (res.ok && res.status !== 401) {
-        const response = await res.json();
-        window.location.assign(`/userBusiness/${response.id}`);
-      }
-    };
-    const timer = setTimeout(() => {
-      verify();
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
+  // useEffect(() => {
+  //   const verify = async () => {
+  //     const res = await fetch('/api/auth/', {
+  //       method: 'GET',
+  //     });
+  //     if (res.ok && res.status !== 401) {
+  //       const response = await res.json();
+  //       window.location.assign(`/userBusiness/${response.id}`);
+  //     }
+  //   };
+  //   const timer = setTimeout(() => {
+  //     verify();
+  //   }, 3000);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   const handleSubmit = async () => {
     try {

@@ -5,7 +5,7 @@ export async function GET(req) {
     status: 'success',
   });
   response.cookies.set('authKey', 'null', {
-    httpOnly: true,
+    httpOnly: false,
     path: '/',
     maxAge: 0,
     sameSite: 'lax',

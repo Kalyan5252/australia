@@ -89,6 +89,7 @@ const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
           Reset Password
         </button>
         <button
+          // href="/api/auth/logout"
           onClick={() => {
             handleLogout();
           }}
@@ -113,6 +114,7 @@ const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
             Reset Password
           </button>
           <button
+            // href="/api/auth/logout"
             onClick={() => {
               handleLogout();
             }}

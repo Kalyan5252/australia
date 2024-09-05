@@ -39,7 +39,7 @@ const BusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
       const res = await fetch('/api/auth/', {
         method: 'GET',
       });
-      if (res.ok) {
+      if (!res.ok) {
         setTimeout(() => {
           window.location.assign('/login');
         }, 2000);
@@ -74,26 +74,26 @@ const BusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
         />
       )}
       <div className="lg:hidden flex gap-4">
-        <button
+        {/* <button
           onClick={() => {
             handleLogout();
           }}
           className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
         >
           Logout
-        </button>
+        </button> */}
       </div>
       <div className="flex justify-between items-center">
         <h1 className="text-6xl font-medium">{data.data.companyName}</h1>
         <div className="hidden lg:flex gap-4">
-          <button
+          {/* <button
             onClick={() => {
               handleLogout();
             }}
             className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
           >
             Logout
-          </button>
+          </button> */}
         </div>
       </div>
       <div className="flex flex-col gap-4 text-gray-200">

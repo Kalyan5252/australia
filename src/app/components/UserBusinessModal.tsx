@@ -88,15 +88,14 @@ const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
         >
           Reset Password
         </button>
-        <button
-          // href="/api/auth/logout"
+        {/* <button
           onClick={() => {
             handleLogout();
           }}
           className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
         >
           Logout
-        </button>
+        </button> */}
       </div>
       <div className="flex justify-between items-center">
         <h1 className="text-6xl font-medium">{data.data.companyName}</h1>
@@ -113,15 +112,14 @@ const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
           >
             Reset Password
           </button>
-          <button
-            // href="/api/auth/logout"
+          {/* <button
             onClick={() => {
               handleLogout();
             }}
             className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
           >
             Logout
-          </button>
+          </button> */}
         </div>
       </div>
       <div className="flex flex-col gap-4 text-gray-200">

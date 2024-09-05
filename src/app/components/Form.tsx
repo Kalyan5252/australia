@@ -28,6 +28,7 @@ const Form = () => {
 
         const response = await fetch('/api/form', { method: 'GET' });
         const data = await response.json();
+        console.log(data);
         setFormData(data);
       } catch (error) {
         console.error('Failed to fetch form data', error);
@@ -144,7 +145,7 @@ const Form = () => {
                 placeholder={item.placeholder}
                 type={item.type}
                 onchange={handleInputChange}
-                required={item.required || 'false'}
+                required={item.required || false}
                 key={index}
               />
             )

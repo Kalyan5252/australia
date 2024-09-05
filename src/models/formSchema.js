@@ -10,9 +10,8 @@ const FormSchema = new mongoose.Schema({
   file: String,
   value: { type: String, default: '' },
   required: {
-    type: String,
-    default: 'false',
-    enum: ['true', 'false'],
+    type: Boolean,
+    default: false,
   },
   placeholder: String,
 });

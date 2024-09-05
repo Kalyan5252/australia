@@ -37,6 +37,8 @@ const UpdateForm = ({
     getFormData();
   }, []);
 
+  useEffect(() => console.log(formData), [formData]);
+
   interface FormData {
     [key: string]: string | File | undefined;
     // other specific properties if any

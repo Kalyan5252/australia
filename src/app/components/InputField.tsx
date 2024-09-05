@@ -11,7 +11,7 @@ interface InputBox {
   placeholder?: string;
   options?: optionsProps[];
   onchange: (key: string, value: string) => void;
-  required: string | boolean;
+  required: boolean;
   //   bodyKey: string;
 }
 
@@ -44,7 +44,7 @@ const InputField = ({
           placeholder={placeholder}
           className="p-2 outline-none focus:border-gray-100 bg-transparent text-gray-400 border-b-[1px] border-gray-300 focus:shadow-lg transition-all"
           onChange={(e) => onchange(label, e.target.value)}
-          required={required === 'false' || false ? false : true}
+          required={required}
         />
       )}
     </div>

@@ -18,3 +18,24 @@ export interface FormData {
   businessDescription: string;
   businessLogo: string;
 }
+
+export interface dataProps {
+  businessDescription: string;
+  businessLogo: string;
+  businessName: string;
+  companyName: string;
+  companyWebsite: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  mobile: string;
+}
+
+export interface userProps {
+  data: dataProps;
+  _id: string;
+  __v: number;
+  email: string;
+  password: string;
+  createdAt: string;
+}

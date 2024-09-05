@@ -3,26 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Loading from '@/app/components/Loading';
 import UserBusinessModal from '@/app/components/UserBusinessModal';
 
-interface dataProps {
-  businessDescription: string; // MongoDB ObjectId as a string
-  businessLogo: string;
-  businessName: string;
-  companyName: string;
-  companyWebsite: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  mobile: string;
-}
-
-interface userProps {
-  data: dataProps;
-  _id: string;
-  __v: number;
-  email: string;
-  password: string;
-  createdAt: string;
-}
+import { dataProps, userProps } from '@/types';
 
 const page = ({ params }: { params: { id: string } }) => {
   const businessId = params.id;

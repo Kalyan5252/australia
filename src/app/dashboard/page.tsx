@@ -31,7 +31,11 @@ const page = () => {
     try {
       const res = await fetch('/api/auth/logout', { method: 'GET' });
       // const response = await res.json();
-      window.location.assign('/login');
+      if (res.ok) {
+        setTimeout(() => {
+          window.location.assign('/login');
+        }, 2000);
+      }
     } catch (error) {
       console.log(error);
     }

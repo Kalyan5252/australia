@@ -1,27 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import BusinessCard from './BusinessCard';
-
-interface dataProps {
-  businessDescription: string; // MongoDB ObjectId as a string
-  businessLogo: string;
-  businessName: string;
-  companyName: string;
-  companyWebsite: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  mobile: string;
-}
-
-interface userProps {
-  data: dataProps;
-  _id: string;
-  __v: number;
-  email: string;
-  password: string;
-  createdAt: string;
-}
+import { dataProps, userProps } from '@/types';
 
 const DashboardList = () => {
   const [data, setData] = useState<userProps[]>([]);

@@ -39,8 +39,10 @@ const BusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
       const res = await fetch('/api/auth/', {
         method: 'GET',
       });
-      if (!res.ok) {
-        window.location.assign('/login');
+      if (res.ok) {
+        setTimeout(() => {
+          window.location.assign('/login');
+        }, 2000);
       }
     };
     verify();

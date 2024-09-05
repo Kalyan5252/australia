@@ -112,7 +112,7 @@ const UpdateForm = ({
               e.preventDefault();
               handleSubmit();
             }}
-            className="grid grid-cols-3 gap-4 overflow-y-scroll w-full"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-scroll w-full"
           >
             {formData.map((item: FormItem, index: number) =>
               ['textArea', 'file'].includes(item.type) ? (

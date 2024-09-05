@@ -7,26 +7,7 @@ import { IoGlobeOutline } from 'react-icons/io5';
 import UpdateForm from './UpdateForm';
 import ResetPassword from './ResetPassword';
 
-interface dataProps {
-  businessDescription: string; // MongoDB ObjectId as a string
-  businessLogo: string;
-  businessName: string;
-  companyName: string;
-  companyWebsite: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  mobile: string;
-}
-
-interface userProps {
-  data: dataProps;
-  _id: string;
-  __v: number;
-  email: string;
-  password: string;
-  createdAt: string;
-}
+import { userProps } from '@/types';
 
 interface BusinessModalProps {
   data: userProps;
@@ -52,7 +33,11 @@ const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
     try {
       const res = await fetch('/api/auth/logout', { method: 'GET' });
       // const response = await res.json();
-      window.location.assign('/login');
+      if (res.ok) {
+        setTimeout(() => {
+          window.location.assign('/login');
+        }, 2000);
+      }
     } catch (error) {
       console.log(error);
     }

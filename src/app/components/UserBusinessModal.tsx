@@ -17,17 +17,17 @@ const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
   const [updateForm, setUpdateForm] = useState(false);
   const [resetModal, setResetModal] = useState(false);
 
-  useEffect(() => {
-    const verify = async () => {
-      const res = await fetch('/api/auth/', {
-        method: 'GET',
-      });
-      if (!res.ok) {
-        window.location.assign('/login');
-      }
-    };
-    verify();
-  }, []);
+  // useEffect(() => {
+  //   const verify = async () => {
+  //     const res = await fetch('/api/auth/', {
+  //       method: 'GET',
+  //     });
+  //     if (!res.ok) {
+  //       window.location.assign('/login');
+  //     }
+  //   };
+  //   verify();
+  // }, []);
 
   const handleLogout = async () => {
     try {

@@ -33,7 +33,8 @@ const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
     try {
       const res = await fetch('/api/auth/logout', { method: 'GET' });
       // const response = await res.json();
-      if (res.ok) {
+      const response = await res.json();
+      if (response) {
         setTimeout(() => {
           window.location.assign('/login');
         }, 2000);

@@ -4,12 +4,9 @@ export async function GET(req) {
   const response = NextResponse.json({
     status: 'success',
   });
-  response.cookies.set('authKey', 'null', {
-    httpOnly: false,
-    path: '/',
-    maxAge: 0,
-    sameSite: 'lax',
-    secure: true,
+  response.cookies.set('authKey', '', {
+    httpOnly: true,
+    expires: new Date(0),
   });
   return response;
 }

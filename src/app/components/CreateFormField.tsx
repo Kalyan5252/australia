@@ -75,13 +75,13 @@ const CreateFormField = ({
             onChange={(e) =>
               setFormData((prev) => ({
                 ...prev,
-                required: e.target.value === 'true' ? true : false,
+                required: e.target.value == 'true' ? true : false,
               }))
             }
             className="text-lg p-1 bg-transparent outline-none border-[1px] rounded-lg border-gray-400"
           >
-            <option value="true">Yes</option>
             <option value="false">No</option>
+            <option value="true">Yes</option>
           </select>
         </div>
         <div className="flex flex-col gap-1">

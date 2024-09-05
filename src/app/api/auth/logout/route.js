@@ -7,7 +7,7 @@ export async function GET(req) {
   response.cookies.set('authKey', '', {
     httpOnly: true,
     path: '/',
-    maxAge: new Date(60 * 3600),
+    maxAge: 0,
   });
   return response;
 }

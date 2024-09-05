@@ -53,7 +53,7 @@ export async function POST(req) {
     response.cookies.set('authKey', token, {
       httpOnly: true,
       path: '/',
-      maxAge: new Date(60 * 3600),
+      maxAge: new Date(36000),
     });
     return response;
   } catch (error) {

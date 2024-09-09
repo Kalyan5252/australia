@@ -2,12 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import DashboardList from '../components/DashboardList';
 import ResetPassword from '../components/ResetPassword';
-import CreateFormField from '../components/CreateFormField';
 
 const page = () => {
   const [resetModal, setResetModal] = useState(false);
   const [adminId, setAdminId] = useState('');
-  const [formModal, setFormModal] = useState(false);
   useEffect(() => {
     const verify = async () => {
       const res = await fetch('/api/auth/', {
@@ -51,16 +49,7 @@ const page = () => {
           setResetModal={setResetModal}
         />
       )}
-      {formModal && <CreateFormField setFormModal={setFormModal} />}
       <div className="lg:hidden mb-4 flex gap-2">
-        <button
-          onClick={() => {
-            setFormModal(true);
-          }}
-          className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
-        >
-          New Form Field
-        </button>
         <button
           onClick={() => {
             setResetModal(true);
@@ -81,14 +70,6 @@ const page = () => {
       <div className="flex justify-between items-center">
         <h1 className="text-4xl font-bold">Registered Business</h1>
         <div className="hidden lg:flex gap-2">
-          <button
-            onClick={() => {
-              setFormModal(true);
-            }}
-            className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
-          >
-            New Form Field
-          </button>
           <button
             onClick={() => {
               setResetModal(true);

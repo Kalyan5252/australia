@@ -128,7 +128,7 @@ const page = () => {
             <FaArrowRight />
           </div>
         </button>
-        <p className="font-light text-gray-300">
+        {/* <p className="font-light text-gray-300">
           Didn't Register Business?{' '}
           <Link
             href="/registrationForm"
@@ -136,7 +136,7 @@ const page = () => {
           >
             Register
           </Link>
-        </p>
+        </p> */}
       </form>
     </div>
   );

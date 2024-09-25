@@ -51,6 +51,7 @@ const BusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
           id={data._id}
           updateForm={updateForm}
           setUpdateForm={setUpdateForm}
+          userData={data}
         />
       )}
       <div className="lg:hidden flex gap-4">

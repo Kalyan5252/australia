@@ -2,27 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import Loading from '@/app/components/Loading';
 import BusinessModal from '@/app/components/BusinessModal';
-
-interface dataProps {
-  businessDescription: string; // MongoDB ObjectId as a string
-  businessLogo: string;
-  businessName: string;
-  companyName: string;
-  companyWebsite: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  mobile: string;
-}
-
-interface userProps {
-  data: dataProps;
-  _id: string;
-  __v: number;
-  email: string;
-  password: string;
-  createdAt: string;
-}
+import { userProps, dataProps } from '@/types';
 
 const page = ({ params }: { params: { id: string } }) => {
   const businessId = params.id;
@@ -43,7 +23,7 @@ const page = ({ params }: { params: { id: string } }) => {
   }, []);
 
   return (
-    <div className="p-16 h-screen">
+    <div className="p-8 lg:p-16 h-screen">
       {isLoading ? (
         <div className="h-full w-full flex justify-center items-center">
           <Loading />

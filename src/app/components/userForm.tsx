@@ -10,25 +10,25 @@ import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 import { FormItem } from '../../types';
+import { userProps } from '../../types';
 
-const Form = () => {
+const userForm = ({ id }: { id: string }) => {
   const [formData, setFormData] = useState<FormItem[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [userData, setUserData] = useState({
-    userName: '',
-    password: '',
-  });
+  // const [userData, setUserData] = useState({
+  //   userName: '',
+  //   password: '',
+  // });
 
   useEffect(() => {
     const getFormData = async () => {
       try {
         setIsLoading(true);
-
         const response = await fetch('/api/form', { method: 'GET' });
         const data = await response.json();
-        // console.log(data);
+        console.log('test check:', data);
         setFormData(data);
       } catch (error) {
         console.error('Failed to fetch form data', error);
@@ -47,20 +47,6 @@ const Form = () => {
         item.label === key ? { ...item, value: newValue } : item
       )
     );
-  };
-
-  const Toastify = (message: string, stype: 'success' | 'error') => {
-    return toast(message, {
-      position: 'top-center',
-      autoClose: 1000,
-      pauseOnHover: false,
-      type: stype,
-      transition: Flip,
-      pauseOnFocusLoss: false,
-      // hideProgressBar: true,
-      draggable: true,
-      closeOnClick: true,
-    });
   };
 
   const handleSubmit = async () => {
@@ -82,7 +68,7 @@ const Form = () => {
       if (transformedData.businessLogo)
         formData.append('image', transformedData.businessLogo);
 
-      await fetch('/api/users/', {
+      await fetch(`/api/users/${id}`, {
         method: 'POST',
         body: formData,
       })
@@ -90,22 +76,52 @@ const Form = () => {
         .then((res) => {
           if (res?.message) {
             if (res.message.includes('duplicate key')) {
-              Toastify('Email Already Registered', 'error');
-              return;
+              return toast('Email Already Registered', {
+                position: 'top-center',
+                autoClose: 1000,
+                pauseOnHover: false,
+                type: 'error',
+                transition: Flip,
+                pauseOnFocusLoss: false,
+                // hideProgressBar: true,
+                draggable: true,
+                closeOnClick: true,
+              });
             } else {
-              Toastify('Error Occured. Try Again', 'error');
-
-              return;
+              return toast('Error Occured. Try Again', {
+                position: 'top-center',
+                autoClose: 1000,
+                pauseOnHover: false,
+                type: 'error',
+                transition: Flip,
+                pauseOnFocusLoss: false,
+                // hideProgressBar: true,
+                draggable: true,
+                closeOnClick: true,
+              });
             }
-          }
-          if (res.status === 'success') {
-            Toastify('Check your mail', 'success');
+          } else {
+            toast('Registered Successfully', {
+              position: 'top-center',
+              autoClose: 1000,
+              pauseOnHover: false,
+              type: 'success',
+              transition: Flip,
+              pauseOnFocusLoss: false,
+              // hideProgressBar: true,
+              draggable: true,
+              closeOnClick: true,
+            });
             setTimeout(() => {
               window.location.assign('/login');
             }, 2000);
           }
           setIsSuccess(true);
-          window.scrollTo(0, 0);
+          // window.scrollTo(0, 0);
+          // setUserData({
+          //   userName: res.userName,
+          //   password: res.password,
+          // });
         });
     } catch (err) {
       console.error(err);
@@ -174,4 +190,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default userForm;

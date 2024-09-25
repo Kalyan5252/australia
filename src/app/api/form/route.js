@@ -6,7 +6,7 @@ import startDb from '@/app/lib/db';
 await startDb();
 export async function GET() {
   try {
-    const formData = await Form.find().select('-_id -__v -options');
+    const formData = await Form.find().select('-_id -__v');
     return NextResponse.json(formData);
   } catch (error) {
     return NextResponse.json({ message: error.message });

@@ -1,6 +1,7 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import DashboardList from '../components/DashboardList';
+import DashboardGrid from '../components/DashboardGrid';
 import ResetPassword from '../components/ResetPassword';
 
 const page = () => {
@@ -41,7 +42,7 @@ const page = () => {
     }
   };
   return (
-    <div className="relative p-8 lg:p-16 max-h-screen">
+    <div className="relative p-8 max-h-screen">
       {resetModal && (
         <ResetPassword
           id={adminId}
@@ -50,14 +51,14 @@ const page = () => {
         />
       )}
       <div className="lg:hidden mb-4 flex gap-2">
-        <button
+        {/* <button
           onClick={() => {
             setResetModal(true);
           }}
           className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
         >
           Reset Password
-        </button>
+        </button> */}
         {/* <button
           onClick={() => {
             handleLogout();
@@ -70,14 +71,14 @@ const page = () => {
       <div className="flex justify-between items-center">
         <h1 className="text-4xl font-bold">Registered Business</h1>
         <div className="hidden lg:flex gap-2">
-          <button
+          {/* <button
             onClick={() => {
               setResetModal(true);
             }}
             className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
           >
             Reset Password
-          </button>
+          </button> */}
           {/* <button
             onClick={() => {
               handleLogout();
@@ -88,7 +89,7 @@ const page = () => {
           </button> */}
         </div>
       </div>
-      <DashboardList />
+      <DashboardGrid />
     </div>
   );
 };

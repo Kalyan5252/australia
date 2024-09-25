@@ -1,32 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { FaRegUser } from 'react-icons/fa6';
 import { BsTelephone } from 'react-icons/bs';
 import { MdOutlineMailOutline } from 'react-icons/md';
 import { IoGlobeOutline } from 'react-icons/io5';
 import UpdateForm from './UpdateForm';
-
-interface dataProps {
-  businessDescription: string; // MongoDB ObjectId as a string
-  businessLogo: string;
-  businessName: string;
-  companyName: string;
-  companyWebsite: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  mobile: string;
-}
-
-interface userProps {
-  data: dataProps;
-  _id: string;
-  __v: number;
-  email: string;
-  password: string;
-  createdAt: string;
-}
-
+import { userProps, dataProps } from '@/types';
 interface BusinessModalProps {
   data: userProps;
 }
@@ -84,7 +64,18 @@ const BusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
         </button> */}
       </div>
       <div className="flex justify-between items-center">
-        <h1 className="text-6xl font-medium">{data.data.companyName}</h1>
+        <div className="flex items-center gap-4">
+          <Image
+            src={`https://pub-4dba511debbc404da50bb5d141f735bc.r2.dev/business-aus/${data.data.businessLogo}`}
+            alt="business Logo"
+            height={100}
+            width={100}
+            className="max-w-[100px] max-h-[100px]"
+          />
+          <h1 className="text-6xl font-medium capitalize">
+            {data.data.companyName}
+          </h1>
+        </div>
         <div className="hidden lg:flex gap-4">
           {/* <button
             onClick={() => {
@@ -96,14 +87,14 @@ const BusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
           </button> */}
         </div>
       </div>
-      <div className="flex flex-col gap-4 text-gray-200">
-        <h2 className="text-3xl font-medium text-white">
+      <div className="flex flex-col gap-4 text-gray-700">
+        <h2 className="text-3xl font-medium text-gray-800 capitalize">
           {data.data.businessName}
         </h2>
         <p className="max-w-[100ch] ">{data.data.businessDescription}</p>
       </div>
-      <div className="flex flex-col gap-4 text-gray-200">
-        <h2 className="text-3xl font-medium text-white">Contact Information</h2>
+      <div className="flex flex-col gap-4 text-gray-800">
+        <h2 className="text-3xl font-medium">Contact Information</h2>
         <div className="flex gap-4 items-center">
           <div className="p-2 rounded-full border-[1px] border-gray-200">
             <FaRegUser />

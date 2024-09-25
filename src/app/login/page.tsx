@@ -6,10 +6,12 @@ import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import ForgotPassword from '../components/ForgotPassword';
 
 const page = () => {
   const router = useRouter();
   const [userData, setUserData] = useState({ userName: '', password: '' });
+  const [resetWindow, setResetWindow] = useState(false);
 
   useEffect(() => {
     const verify = async () => {
@@ -79,30 +81,42 @@ const page = () => {
   };
 
   return (
-    <div className="h-screen relative flex justify-center items-center">
+    <div
+      className={`h-screen relative flex justify-center items-center ${resetWindow}`}
+    >
       <ToastContainer />
-      <div className="gradient1 hidden lg:block"></div>
-      <div className="gradient2 hidden lg:block"></div>
+      {resetWindow && (
+        <ForgotPassword
+          setResetWindow={setResetWindow}
+          resetWindow={resetWindow}
+        />
+      )}
+      {/* <div className="gradient1 hidden lg:block"></div>
+      <div className="gradient2 hidden lg:block"></div> */}
 
       <form
         onSubmit={(e) => {
           e.preventDefault();
           handleSubmit();
         }}
-        className="flex flex-col gap-8"
+        className={`flex flex-col gap-8 ${resetWindow && 'blur-lg'}`}
       >
+        <h1 className="font-bold text-2xl self-center border-b-[1px] border-gray-800">
+          Login
+        </h1>
         <div className="flex flex-col gap-2">
           <h1 className="text-xl">UserName</h1>
           <input
             type="text"
             placeholder="Enter your UserName"
-            className="p-2 text-xl outline-none focus:border-gray-100 bg-transparent text-gray-400 border-b-[1px] border-gray-300 focus:shadow-lg transition-all"
+            className="py-2 text-xl outline-none focus:border-gray-800 bg-transparent text-gray-800 border-b-[1px] border-gray-300 transition-all"
             onChange={(e) => {
               setUserData((prev) => ({
                 ...prev,
                 userName: e.target.value,
               }));
             }}
+            required
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -110,33 +124,36 @@ const page = () => {
           <input
             type="password"
             placeholder="Enter your password"
-            className="p-2 text-xl outline-none focus:border-gray-100 bg-transparent text-gray-400 border-b-[1px] border-gray-300 focus:shadow-lg transition-all"
+            className="py-2 text-xl outline-none focus:border-gray-800 bg-transparent text-gray-800 border-b-[1px] border-gray-300 transition-all"
             onChange={(e) => {
               setUserData((prev) => ({
                 ...prev,
                 password: e.target.value,
               }));
             }}
+            required
           />
+          <p className="font-light gap-10 text-gray-700 flex justify-between">
+            Forgot Password?
+            <button
+              type="button"
+              onClick={() => setResetWindow(true)}
+              className="underline"
+            >
+              click here
+            </button>
+          </p>
         </div>
+
         <button
           type="submit"
-          className=" group flex items-center gap-1 px-4 py-2 self-center bg-white text-[#1A1919] w-fit rounded-lg"
+          className=" group flex items-center gap-1 px-4 py-2 self-center bg-black text-white w-fit rounded-lg"
         >
           <h1 className="font-medium">Login</h1>
           <div className="group-hover:translate-x-1 transition-all">
             <FaArrowRight />
           </div>
         </button>
-        {/* <p className="font-light text-gray-300">
-          Didn't Register Business?{' '}
-          <Link
-            href="/registrationForm"
-            className="hover:underline transition-all"
-          >
-            Register
-          </Link>
-        </p> */}
       </form>
     </div>
   );

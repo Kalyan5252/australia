@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Loading = ({ size = 40, color = 'text-white', strokeWidth = 4 }) => {
+const Loading = ({ size = 40, color = 'text-black', strokeWidth = 4 }) => {
   const circleRadius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * circleRadius;
 

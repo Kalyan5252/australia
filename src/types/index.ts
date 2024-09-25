@@ -1,10 +1,17 @@
+type optionsProps = {
+  label: string;
+  value: string;
+};
+
 export interface FormItem {
   label: string;
   type: string;
   value: string | File | undefined;
   placeholder: string;
   arkey: string;
+  options: optionsProps[];
   required?: boolean;
+  pattern?: string;
 }
 
 export interface FormData {
@@ -29,6 +36,11 @@ export interface dataProps {
   firstName: string;
   lastName: string;
   mobile: string;
+  address?: string;
+  state?: string;
+  city?: string;
+  zipcode?: string;
+  street?: string;
 }
 
 export interface userProps {
@@ -38,4 +50,12 @@ export interface userProps {
   email: string;
   password: string;
   createdAt: string;
+  userName: string;
 }
+
+export type Payment = {
+  id: string;
+  amount: number;
+  status: 'pending' | 'processing' | 'success' | 'failed';
+  email: string;
+};

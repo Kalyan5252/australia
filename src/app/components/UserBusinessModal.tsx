@@ -116,7 +116,8 @@ const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
           Reset Password
         </button> */}
         <button
-          onClick={() => {
+          onClick={(e) => {
+            e.preventDefault();
             handleLogout();
           }}
           className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"

@@ -53,6 +53,8 @@ export async function POST(req) {
     response.cookies.set('authKey', token, {
       httpOnly: true,
       path: '/',
+      sameSite: 'strict',
+      secure: true,
       maxAge: new Date(36000),
     });
     return response;

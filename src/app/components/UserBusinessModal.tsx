@@ -10,6 +10,7 @@ import ResetPassword from './ResetPassword';
 import { CiLocationOn } from 'react-icons/ci';
 
 import { userProps } from '@/types';
+import { redirect } from 'next/navigation';
 
 // import { transporter, mailOptions } from '@/app/config/nodemailer';
 
@@ -48,20 +49,24 @@ const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
     return () => clearTimeout(timer);
   }, []);
 
-  // const handleLogout = async () => {
-  //   try {
-  //     const res = await fetch('/api/auth/logout', { method: 'GET' });
-  //     // const response = await res.json();
-  //     const response = await res.json();
-  //     if (response) {
-  //       setTimeout(() => {
-  //         window.location.reload();
-  //       }, 2000);
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const handleLogout = async () => {
+    try {
+      const res = await fetch('/api/auth/logout', {
+        method: 'GET',
+        credentials: 'include',
+      });
+      // const response = await res.json();
+      const response = await res.json();
+      if (response) {
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 2000);
+        // redirect('/login');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // const handleMail = async () => {
   //   console.log('handling Mail service');
@@ -110,14 +115,14 @@ const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
         >
           Reset Password
         </button> */}
-        {/* <button
+        <button
           onClick={() => {
             handleLogout();
           }}
           className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
         >
           Logout
-        </button> */}
+        </button>
       </div>
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-4">

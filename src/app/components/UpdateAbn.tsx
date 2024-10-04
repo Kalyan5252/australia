@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { IoCloseOutline } from 'react-icons/io5';
-import { useAuth } from '@/providers/authProvider';
-import Loading from './Loading';
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { IoCloseOutline } from 'react-icons/io5';
+import Loading from './Loading';
 
 const Toastify = (message: string, stype: 'success' | 'error') => {
   return toast(message, {
@@ -18,24 +17,22 @@ const Toastify = (message: string, stype: 'success' | 'error') => {
   });
 };
 
-const ResetPassword = ({
+const UpdateAbn = ({
   id,
-  resetModal,
-  setResetModal,
+  abnModal,
+  setAbnModal,
 }: {
   id: string;
-  resetModal: boolean;
-  setResetModal: (id: boolean) => void;
+  abnModal: boolean;
+  setAbnModal: (id: boolean) => void;
 }) => {
-  const [userData, setUserData] = useState({
-    password: '',
-  });
+  const [userData, setUserData] = useState({ abn: '' });
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
-      await fetch(`/api/users/updatePassword/${id}`, {
+      await fetch(`/api/users/updateAbn/${id}`, {
         method: 'PATCH',
         body: JSON.stringify({ ...userData }),
       })
@@ -43,7 +40,7 @@ const ResetPassword = ({
         .then((res) => {
           if (res.message === 'success') {
             setTimeout(() => window.location.reload(), 1500);
-            return Toastify('Password Updated Successfully', 'success');
+            return Toastify('ABN Updated Successfully', 'success');
           } else return Toastify('Cannot Update.. Try again later', 'error');
         });
     } catch (err) {
@@ -55,13 +52,10 @@ const ResetPassword = ({
     // window.location.reload();
   };
 
-  const { authData } = useAuth();
-  console.log(authData);
-
   return (
     <div className="p-8 absolute top-0 left-0 z-10 bg-[rgba(255,255,255,0.8)] flex justify-center items-center h-screen w-full">
       <button
-        onClick={() => setResetModal(false)}
+        onClick={() => setAbnModal(false)}
         className="absolute z-10 top-10 right-10 text-black"
       >
         <IoCloseOutline size={30} />
@@ -73,14 +67,13 @@ const ResetPassword = ({
         }}
         className="flex flex-col gap-8 bg-white shadow-lg rounded-lg p-8"
       >
-        <h1 className="text-2xl">Password Update</h1>
+        <h1 className="text-2xl">ABN Update</h1>
         <div className="flex flex-col gap-1">
-          {/* <h1>Provide New Password</h1> */}
           <input
             type="text"
-            placeholder="Enter New Password"
+            placeholder="Enter ABN ID"
             className="p-2 outline-none bg-transparent placeholder:text-gray-400 border-b-[1px] border-gray-300 focus:border-gray-700 transition-all"
-            onChange={(e) => setUserData({ password: e.target.value })}
+            onChange={(e) => setUserData({ abn: e.target.value })}
             required
           />
         </div>
@@ -101,4 +94,4 @@ const ResetPassword = ({
   );
 };
 
-export default ResetPassword;
+export default UpdateAbn;

@@ -14,6 +14,7 @@ interface InputBox {
   required: boolean;
   pattern?: string;
   value?: string | File;
+  isEditable?: boolean;
   //   bodyKey: string;
 }
 
@@ -26,6 +27,7 @@ const InputField = ({
   required,
   pattern,
   value,
+  isEditable,
 }: InputBox) => {
   return (
     <div className="flex flex-col h-fit gap-4">
@@ -49,10 +51,13 @@ const InputField = ({
         <input
           type={type}
           placeholder={placeholder}
-          className="p-2 outline-none focus:border-gray-800 bg-transparent text-gray-700 border-b-[1px] border-gray-700 transition-all"
+          className={`p-2 outline-none  bg-transparent border-gray-700 focus:border-gray-800 border-b-[1px]  transition-all ${
+            !isEditable ? 'text-gray-500 border-gray-300' : 'text-gray-700 '
+          }`}
           onChange={(e) => onchange(label, e.target.value)}
           required={required}
           pattern={pattern}
+          readOnly={!isEditable}
           // value={value || ''}
           {...(type !== 'file'
             ? { value: typeof value === 'string' ? value : '' }

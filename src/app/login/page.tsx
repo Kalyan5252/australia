@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { FaArrowRight } from 'react-icons/fa';
 import Loading from '../components/Loading';
 import { ToastContainer, toast, Flip } from 'react-toastify';
@@ -7,11 +7,26 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import ForgotPassword from '../components/ForgotPassword';
+import { useAuth } from '@/providers/authProvider';
+
+const Toastify = (message: string, stype: 'success' | 'error') => {
+  return toast(message, {
+    position: 'top-center',
+    autoClose: 1000,
+    pauseOnHover: false,
+    type: stype,
+    transition: Flip,
+    pauseOnFocusLoss: false,
+    draggable: true,
+    closeOnClick: true,
+  });
+};
 
 const page = () => {
   const router = useRouter();
   const [userData, setUserData] = useState({ userName: '', password: '' });
   const [resetWindow, setResetWindow] = useState(false);
+  const { authData, setAuthData } = useAuth();
 
   useEffect(() => {
     const verify = async () => {
@@ -19,8 +34,16 @@ const page = () => {
         method: 'GET',
       });
       if (res.ok && res.status !== 401) {
+        // console.log(res.headers);
         const response = await res.json();
-        window.location.assign(`/userBusiness/${response.id}`);
+        setAuthData({
+          userType: response.role === 'admin' ? 'admin' : 'user',
+          isAuthenticated: true,
+          userId: response.id,
+        });
+        response.role === 'admin'
+          ? router.push('/dashboard')
+          : router.push(`/userBusiness/${response.id}`);
       }
     };
     const timer = setTimeout(() => {
@@ -38,45 +61,23 @@ const page = () => {
       if (res.ok) {
         const response = await res.json();
         if (response.status === 'success') {
-          toast('Login Successful', {
-            position: 'top-center',
-            autoClose: 1000,
-            pauseOnHover: false,
-            type: 'success',
-            transition: Flip,
-            pauseOnFocusLoss: false,
-            // hideProgressBar: true,
-            draggable: true,
-            closeOnClick: true,
+          Toastify('Login Successful', 'success');
+          console.log(response);
+          setAuthData({
+            userType: response.role === 'admin' ? 'admin' : 'user',
+            isAuthenticated: true,
+            userId: response.id,
           });
+
           response.role === 'admin'
             ? router.push('/dashboard')
             : router.push(`/userBusiness/${response.id}`);
         } else {
-          return toast('Authentication Failed', {
-            position: 'top-center',
-            autoClose: 1000,
-            pauseOnHover: false,
-            type: 'error',
-            transition: Flip,
-            pauseOnFocusLoss: false,
-            // hideProgressBar: true,
-            draggable: true,
-            closeOnClick: true,
-          });
+          return Toastify('Authentication Failed', 'error');
         }
       }
     } catch (error) {
-      return toast('❌ Error Occured..', {
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        theme: 'light',
-        transition: Flip,
-      });
+      return Toastify('❌ Error Occured..', 'error');
     }
   };
 
@@ -134,13 +135,12 @@ const page = () => {
             required
           />
           <p className="font-light gap-10 text-gray-700 flex justify-between">
-            Forgot Password?
             <button
               type="button"
               onClick={() => setResetWindow(true)}
               className="underline"
             >
-              click here
+              Forgot Password?
             </button>
           </p>
         </div>

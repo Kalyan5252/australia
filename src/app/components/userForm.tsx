@@ -9,10 +9,9 @@ import InfoModal from './InfoModal';
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { FormItem } from '../../types';
-import { userProps } from '../../types';
+import { FormItem, dataProps, userProps } from '@/types';
 
-const userForm = ({ id }: { id: string }) => {
+const userForm = ({ id, userData }: { id: string; userData: userProps }) => {
   const [formData, setFormData] = useState<FormItem[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -27,9 +26,20 @@ const userForm = ({ id }: { id: string }) => {
       try {
         setIsLoading(true);
         const response = await fetch('/api/form', { method: 'GET' });
-        const data = await response.json();
-        console.log('test check:', data);
-        setFormData(data);
+        const data: FormItem[] = await response.json();
+        // console.log('test check:', data);
+        // console.log('user check from 2:', userData);
+        // const updatedDataFields = data.map((field) => {
+        //   const key = field.arkey as keyof dataProps;
+        //   field.value = userData?.data[key] ?? '';
+        //   console.log('key check', key, userData?.data[key]);
+        //   // console.log('fied:', field);
+        //   return field;
+        // });
+        // console.log('updated Fields: ', updatedDataFields);
+        setFormData(
+          data.filter((doc) => !['email', 'abn'].includes(doc.arkey))
+        );
       } catch (error) {
         console.error('Failed to fetch form data', error);
       }
@@ -143,7 +153,7 @@ const userForm = ({ id }: { id: string }) => {
             e.preventDefault();
             handleSubmit();
           }}
-          className="mt-16 pb-10 w-full overflow-y-scroll grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"
+          className="mt-4 pb-10 w-full  grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"
         >
           {formData.map((item: FormItem, index: number) =>
             ['textArea', 'file'].includes(item.type) ? (

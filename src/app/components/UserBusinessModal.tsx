@@ -7,7 +7,12 @@ import { MdOutlineMailOutline } from 'react-icons/md';
 import { IoGlobeOutline } from 'react-icons/io5';
 import UpdateForm from './UpdateForm';
 import ResetPassword from './ResetPassword';
+import UpdateAbn from './UpdateAbn';
 import { CiLocationOn } from 'react-icons/ci';
+import { TiBusinessCard } from 'react-icons/ti';
+import DropDown from './DropDown';
+import { useAuth } from '@/providers/authProvider';
+import useVerifyUser from '../hooks/VerifyUser';
 
 import { userProps } from '@/types';
 import { redirect } from 'next/navigation';
@@ -21,52 +26,13 @@ interface BusinessModalProps {
 const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
   const [updateForm, setUpdateForm] = useState(false);
   const [resetModal, setResetModal] = useState(false);
+  const [abnModal, setAbnModal] = useState(false);
+  const { authData, setAuthData } = useAuth();
+  const { verifyRole } = useVerifyUser();
 
   useEffect(() => {
-    const verify = async () => {
-      const res = await fetch('/api/auth/', {
-        method: 'GET',
-      });
-      if (!res.ok) {
-        window.location.assign('/login');
-      }
-    };
-    verify();
+    verifyRole();
   }, []);
-
-  useEffect(() => {
-    const verify = async () => {
-      const res = await fetch('/api/auth/', {
-        method: 'GET',
-      });
-      if (!res.ok) {
-        window.location.assign('/login');
-      }
-    };
-    const timer = setTimeout(() => {
-      verify();
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, []);
-
-  const handleLogout = async () => {
-    try {
-      const res = await fetch('/api/auth/logout', {
-        method: 'GET',
-        credentials: 'include',
-      });
-      // const response = await res.json();
-      const response = await res.json();
-      if (response) {
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 2000);
-        // redirect('/login');
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   // const handleMail = async () => {
   //   console.log('handling Mail service');
@@ -85,7 +51,7 @@ const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
   // };
 
   return (
-    <div className="flex flex-col gap-12">
+    <div className="">
       {updateForm && (
         <UpdateForm
           id={data._id}
@@ -94,122 +60,109 @@ const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
           userData={data}
         />
       )}
-      {/* {resetModal && (
+      {resetModal && (
         <ResetPassword
-          id={data._id}
+          id={authData.userId}
           resetModal={resetModal}
           setResetModal={setResetModal}
         />
-      )} */}
-      <div className="lg:hidden flex justify-end gap-4">
-        <button
-          onClick={() => setUpdateForm(true)}
-          className="px-3 py-2 font-medium text-white rounded-lg bg-[#1A1919]"
+      )}
+      {abnModal && (
+        <UpdateAbn
+          id={data._id}
+          abnModal={abnModal}
+          setAbnModal={setAbnModal}
+        />
+      )}
+      <div
+        className={`${
+          resetModal || updateForm || abnModal
+            ? 'blur-sm overflow-y-hidden'
+            : 'blur-0 overflow-y-scroll'
+        }`}
+      >
+        <div
+          className={`bg-black text-white lg:px-16 py-4 px-8 flex justify-between items-center `}
         >
-          Update Data
-        </button>
-        {/* <button
-          onClick={() => handleMail()}
-          // onClick={() => setResetModal(true)}
-          className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
-        >
-          Reset Password
-        </button> */}
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            handleLogout();
-          }}
-          className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
-        >
-          Logout
-        </button>
-      </div>
-      <div className="flex justify-between items-center">
-        <div className="flex items-center gap-4">
-          {data.data.businessLogo !== '' && data.data.businessLogo && (
-            <Image
-              src={`https://pub-4dba511debbc404da50bb5d141f735bc.r2.dev/business-aus/${data.data.businessLogo}`}
-              alt="business Logo"
-              height={100}
-              width={100}
-              className="max-w-[100px] max-h-[100px] min-h-[100px] min-w-[100px] rounded-full"
-            />
-          )}
-          <h1 className="text-6xl font-medium capitalize">
-            {data.data.companyName}
-          </h1>
-        </div>
-        <div className="hidden lg:flex gap-4">
-          <button
-            onClick={() => setUpdateForm(true)}
-            className="px-3 py-2 font-medium text-white rounded-lg bg-[#1A1919]"
-          >
-            Update Data
-          </button>
-          {/* <button
-            onClick={() => setResetModal(true)}
-            className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
-          >
-            Reset Password
-          </button> */}
-          {/* <button
-            onClick={() => {
-              handleLogout();
-            }}
-            className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
-          >
-            Logout
-          </button> */}
-        </div>
-      </div>
-      <div className="flex flex-col gap-4 text-gray-700">
-        <h2 className="text-3xl font-medium text-gray-800">
-          {data.data.businessName}
-        </h2>
-        <p className="max-w-[100ch] ">{data.data.businessDescription}</p>
-      </div>
-      <div className="flex flex-col gap-4 text-gray-700">
-        <h2 className="text-3xl font-medium text-gray-800">
-          Contact Information
-        </h2>
-        <div className="flex gap-4 items-center">
-          <div className="p-2 rounded-full border-[1px] border-gray-200">
-            <FaRegUser />
+          <div className="flex items-center gap-4">
+            {data?.data?.businessLogo !== '' && data?.data?.businessLogo && (
+              <Image
+                src={`https://pub-4dba511debbc404da50bb5d141f735bc.r2.dev/business-aus/${data.data.businessLogo}`}
+                alt="business Logo"
+                height={50}
+                width={50}
+                className="max-w-[70px] max-h-[70px] min-h-[70px] min-w-[70px] rounded-full"
+              />
+            )}
+            <h1 className="text-2xl font-medium capitalize">
+              {data.data?.businessName}
+            </h1>
           </div>
-          <p>
-            {data.data.firstName} {data.data.lastName}
-          </p>
+          <DropDown
+            updateForm={updateForm}
+            setUpdateForm={setUpdateForm}
+            resetModal={resetModal}
+            setResetModal={setResetModal}
+            abnModal={abnModal}
+            setAbnModal={setAbnModal}
+          />
         </div>
-        <div className="flex gap-4 items-center">
-          <div className="p-2 rounded-full border-[1px] border-gray-200">
-            <BsTelephone />
+        <div className="p-8 lg:p-16 flex flex-col gap-12">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center gap-4 text-gray-700 font-medium">
+              <div className="p-2 rounded-full border-[1px] border-gray-200">
+                <TiBusinessCard size={30} />
+              </div>
+              <p className="max-w-[100ch] text-xl">
+                <span className="font-normal">{data.data?.abn}</span>
+              </p>
+            </div>
+            <div className="flex flex-col gap-4 text-gray-700">
+              <p className="max-w-[100ch] ">{data.data?.businessDescription}</p>
+            </div>
           </div>
-          <p>{data.data.mobile}</p>
-        </div>
-        <div className="flex gap-4 items-center">
-          <div className="p-2 rounded-full border-[1px] border-gray-200">
-            <MdOutlineMailOutline />
-          </div>
-          <p>{data.email}</p>
-        </div>
-        <div className="flex gap-4 items-center">
-          <div className="p-2 rounded-full border-[1px] border-gray-200">
-            <IoGlobeOutline />
-          </div>
-          <p>{data.data.companyWebsite}</p>
-        </div>
-        <div className="flex gap-4 items-center">
-          <div className="p-2 rounded-full border-[1px] border-gray-200">
-            <CiLocationOn />
-          </div>
-          <div className="flex flex-col gap-1">
-            <p>{data.data?.address}</p>
-            <p>
-              {data.data?.city} {data.data?.city && ','} {data.data?.state}{' '}
-              {data.data?.state && ','} {data.data?.zipcode}
-            </p>
-            {/* <p></p> */}
+          <div className="flex flex-col gap-4 text-gray-700">
+            <h2 className="text-3xl font-medium text-gray-800">
+              Contact Information
+            </h2>
+            <div className="flex gap-4 items-center">
+              <div className="p-2 rounded-full border-[1px] border-gray-200">
+                <FaRegUser />
+              </div>
+              <p>
+                {data.data?.firstName} {data.data?.lastName}
+              </p>
+            </div>
+            <div className="flex gap-4 items-center">
+              <div className="p-2 rounded-full border-[1px] border-gray-200">
+                <BsTelephone />
+              </div>
+              <p>{data.data?.mobile}</p>
+            </div>
+            <div className="flex gap-4 items-center">
+              <div className="p-2 rounded-full border-[1px] border-gray-200">
+                <MdOutlineMailOutline />
+              </div>
+              <p>{data?.email}</p>
+            </div>
+            <div className="flex gap-4 items-center">
+              <div className="p-2 rounded-full border-[1px] border-gray-200">
+                <IoGlobeOutline />
+              </div>
+              <p>{data.data?.companyWebsite}</p>
+            </div>
+            <div className="flex gap-4 items-center">
+              <div className="p-2 rounded-full border-[1px] border-gray-200">
+                <CiLocationOn />
+              </div>
+              <div className="flex flex-col gap-1">
+                <p>{data.data?.address}</p>
+                <p>
+                  {data.data?.city} {data.data?.city && ','} {data.data?.state}{' '}
+                  {data.data?.state && ','} {data.data?.zipcode}
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

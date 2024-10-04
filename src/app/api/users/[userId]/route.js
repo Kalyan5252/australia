@@ -68,6 +68,7 @@ export async function PATCH(req, { params }) {
       await r2.upload(uploadParams).promise();
       fields.businessLogo = fileName;
     }
+
     // const data = await req.json();
     // console.log(data);
     // console.log(fields);
@@ -93,7 +94,7 @@ export async function POST(req, { params }) {
     }
     const { data } = extractedData;
 
-    const fields = JSON.parse(data);
+    let fields = JSON.parse(data);
 
     if (extractedData?.image) {
       const image = extractedData.image;
@@ -111,6 +112,12 @@ export async function POST(req, { params }) {
       await r2.upload(uploadParams).promise();
       fields.businessLogo = fileName;
     }
+    const prevUser = await User.findOne({ _id: userId });
+
+    // console.log(prevUser)
+    fields.email = prevUser.email;
+    fields.abn = prevUser.abn;
+
     // const data = await req.json();
     // console.log(data);
     const newUser = await User.findByIdAndUpdate(

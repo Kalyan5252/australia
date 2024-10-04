@@ -5,7 +5,7 @@ import crypto from 'crypto';
 export async function POST(req, context) {
   try {
     const { token, password } = await req.json();
-
+    console.log({ token, password });
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 
     const user = await Users.findOne({
@@ -18,10 +18,11 @@ export async function POST(req, context) {
     user.password = password;
     user.passwordResetToken = undefined;
     user.passwordResetExpires = undefined;
-    await user.save();
+    await user.save({ validateBeforeSave: false });
 
     return NextResponse.json({ message: 'success' }, { status: 200 });
   } catch (error) {
+    console.log(error);
     return NextResponse.json({ message: error.message }, { status: 400 });
   }
 }

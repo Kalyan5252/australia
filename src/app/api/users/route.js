@@ -32,7 +32,10 @@ const sendMail = async (id, to, password, userName) => {
 
 export async function GET() {
   try {
-    const users = await User.find({ role: { $ne: 'admin' } }).sort({
+    const users = await User.find({
+      role: { $ne: 'admin' },
+      isRegistered: { $ne: false },
+    }).sort({
       createdAt: -1,
     });
     return NextResponse.json(users);

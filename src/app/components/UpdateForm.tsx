@@ -36,12 +36,7 @@ const UpdateForm = ({
         });
 
         // console.log('Updated Form Item:', updatedFormFields);
-        setFormData(
-          updatedFormFields.map((item) => ({
-            ...item,
-            required: false,
-          }))
-        );
+        setFormData(updatedFormFields);
       } catch (error) {
         console.error('Failed to fetch form data', error);
       }
@@ -140,7 +135,7 @@ const UpdateForm = ({
   };
 
   return (
-    <div className="p-8 absolute top-0 left-0 bg-white flex justify-center items-center h-screen w-full">
+    <div className="p-8 absolute z-10 top-0 left-0 overflow-y-scroll bg-white flex justify-center items-center h-screen w-full">
       <ToastContainer />
       <button
         onClick={() => setUpdateForm(false)}
@@ -149,7 +144,7 @@ const UpdateForm = ({
         <IoCloseOutline size={30} />
       </button>
       <div className="flex flex-col gap-12 items-center h-full w-5/6">
-        <h1 className="text-2xl border-b-[1px] pb-2">Update Form</h1>
+        <h1 className="text-2xl border-b-[1px] pb-2">Edit Information</h1>
         {formData.length === 0 ? (
           <div className="h-full flex justify-center items-center">
             <Loading />
@@ -160,7 +155,7 @@ const UpdateForm = ({
               e.preventDefault();
               handleSubmit();
             }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 overflow-y-scroll w-full"
+            className="pb-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full"
           >
             {formData.map((item: FormItem, index: number) =>
               ['textArea', 'file'].includes(item.type) ? (
@@ -183,6 +178,7 @@ const UpdateForm = ({
                   value={item.value}
                   options={item?.options}
                   pattern={item?.pattern}
+                  isEditable={item?.isEditable}
                 />
               )
             )}

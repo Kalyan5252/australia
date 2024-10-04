@@ -12,6 +12,7 @@ export interface FormItem {
   options: optionsProps[];
   required?: boolean;
   pattern?: string;
+  isEditable?: boolean;
 }
 
 export interface FormData {
@@ -41,9 +42,11 @@ export interface dataProps {
   city?: string;
   zipcode?: string;
   street?: string;
+  abn: string;
 }
 
 export interface userProps {
+  abn: string;
   data: dataProps;
   _id: string;
   __v: number;

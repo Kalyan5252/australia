@@ -8,6 +8,11 @@ const UserSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  abn: {
+    type: String,
+    unique: true,
+    required: true,
+  },
   email: {
     type: String,
     select: true,
@@ -17,10 +22,15 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     default: '1234',
+    select: false,
   },
   role: {
     type: String,
     default: 'user',
+  },
+  isRegistered: {
+    type: Boolean,
+    default: false,
   },
   passwordChangedAt: Date,
   passwordResetToken: String,

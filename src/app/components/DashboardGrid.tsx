@@ -55,7 +55,7 @@ export const columns: ColumnDef<userProps>[] = [
   {
     // accessorKey: 'data.firstName',
     id: 'firstName',
-    accessorFn: (row) => row.data.firstName,
+    accessorFn: (row) => row.data?.firstName,
     header: ({ column }) => (
       <Button
         variant="ghost"
@@ -72,7 +72,7 @@ export const columns: ColumnDef<userProps>[] = [
   },
   {
     id: 'businessName',
-    accessorFn: (row) => row.data.businessName,
+    accessorFn: (row) => row.data?.businessName,
     // accessorKey: 'companyName',
     header: ({ column }) => (
       <Button
@@ -80,7 +80,7 @@ export const columns: ColumnDef<userProps>[] = [
         className="text-lg p-2 font-medium"
         onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
-        Company Name
+        Business Name
         <TbArrowsSort className="ml-2 h-4 w-4" />
       </Button>
     ),
@@ -130,6 +130,8 @@ export const columns: ColumnDef<userProps>[] = [
 
 const DashboardGrid = () => {
   const [data, setData] = React.useState<userProps[]>([]);
+  const [recordsCount, setRecordsCount] = React.useState(50);
+
   React.useEffect(() => {
     const getData = async () => {
       const res = await fetch('/api/users', { method: 'GET' });
@@ -139,7 +141,7 @@ const DashboardGrid = () => {
         setData(response);
       }
     };
-    table.setPageSize(9);
+    table.setPageSize(recordsCount);
     getData();
   }, []);
   //   React.useEffect(() => console.log(data), [data]);
@@ -171,6 +173,7 @@ const DashboardGrid = () => {
     },
   });
   //   table.setPageSize(9);
+  console.log('page c:', table.getState().pagination);
 
   return (
     <div className="w-full h-full">
@@ -191,9 +194,9 @@ const DashboardGrid = () => {
           <TableHeader className="rounded-full bg-gray-200 ">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
+                {headerGroup.headers.map((header, index) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={index}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -208,9 +211,9 @@ const DashboardGrid = () => {
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
+              table.getRowModel().rows.map((row, index) => (
                 <TableRow
-                  key={row.id}
+                  key={`${row.original._id}-${index}`}
                   data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -236,46 +239,64 @@ const DashboardGrid = () => {
           </TableBody>
         </Table>
       </div>
-      <div className="flex justify-self-end self-end items-center justify-end space-x-2 py-4">
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            // onClick={() => table.setPageIndex(2)}
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
+      <div className="flex justify-between items-center">
+        <div className="flex justify-self-end self-end items-center justify-end space-x-2 py-4">
+          <div className="space-x-2">
+            <Button
+              variant="outline"
+              size="sm"
+              // onClick={() => table.setPageIndex(2)}
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => table.setPageIndex(0)}
+              // onClick={() => table.previousPage()}
+              // disabled={!table.getCanPreviousPage()}
+            >
+              1
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              // onClick={() => console.log('page count:', table.previousPage)}
+              onClick={() => table.setPageIndex(1)}
+              disabled={(() => {
+                return table.getPageCount() < 2;
+              })()}
+            >
+              2
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              // onClick={() => table.setPageIndex(0) }
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              Next
+            </Button>
+          </div>
+        </div>
+        <div className="flex items-center gap-4 text-gray-500">
+          <div className="p-1 px-2 flex gap-1 rounded-lg shadow-sm border-[1px] border-gray-300">
+            <p>{table.getState().pagination.pageIndex + 1} / </p>
+            <p>{table.getPageCount()}</p>
+          </div>
+          <select
+            name=""
+            id=""
+            className="p-1 px-2 rounded-lg shadow-sm border-[1px] border-gray-300"
+            onChange={(e) => setRecordsCount(parseInt(e.target.value))}
           >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.setPageIndex(0)}
-            // onClick={() => table.previousPage()}
-            // disabled={!table.getCanPreviousPage()}
-          >
-            1
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            // onClick={() => console.log('page count:', table.previousPage)}
-            onClick={() => table.setPageIndex(1)}
-            disabled={(() => {
-              return table.getPageCount() < 2;
-            })()}
-          >
-            2
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            // onClick={() => table.setPageIndex(0) }
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
+            <option value="50">50</option>
+            <option value="100">100</option>
+            <option value="150">150</option>
+          </select>
         </div>
       </div>
     </div>

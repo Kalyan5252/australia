@@ -31,11 +31,20 @@ const sendMail = async (id, to, password, userName) => {
 
 export async function POST(req) {
   try {
-    const { email, userName } = await req.json();
+    const { email, mobile, abn } = await req.json();
     // console.log({ email, userName });
-    if (!email || !userName) throw new Error('Please Provide Credentials');
+    if (!email && !mobile && !abn)
+      throw new Error('Please Provide Credentials');
+    console.log({ email, mobile, abn });
+    const userName = email.split('@').slice(0, -1).join('');
     const password = crypto.randomBytes(3).toString('hex');
-    const newUser = await Users.create({ email, userName, password });
+    const newUser = await Users.create({
+      email,
+      userName,
+      password,
+      abn,
+      data: { abn },
+    });
     if (!newUser)
       throw new Error('Cannot create Account. Please Try Again Later');
     console.log(newUser);

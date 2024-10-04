@@ -1,95 +1,54 @@
 'use client';
 import React, { useEffect, useState } from 'react';
-import DashboardList from '../components/DashboardList';
 import DashboardGrid from '../components/DashboardGrid';
 import ResetPassword from '../components/ResetPassword';
+import DropDownAdmin from '../components/DropDownAdmin';
+import CreateUser from '../components/CreateUser';
+import { useAuth } from '@/providers/authProvider';
+import useVerifyUser from '../hooks/VerifyUser';
 
 const page = () => {
   const [resetModal, setResetModal] = useState(false);
+  const [createForm, setCreateForm] = useState(false);
   const [adminId, setAdminId] = useState('');
-  useEffect(() => {
-    const verify = async () => {
-      const res = await fetch('/api/auth/', {
-        method: 'GET',
-      });
-      if (!res.ok) {
-        window.location.assign('/login');
-      }
-      if (res.ok) {
-        const response = await res.json();
-        setAdminId(response.id);
-        if (response.role !== 'admin') {
-          window.location.assign(`/userBusiness/${response.id}`);
-        }
-      }
-    };
-    verify();
-  }, []);
+  const { verifyUser } = useVerifyUser();
+  const { authData, setAuthData } = useAuth();
 
-  const handleLogout = async () => {
-    try {
-      const res = await fetch('/api/auth/logout', { method: 'GET' });
-      // const response = await res.json();
-      const response = await res.json();
-      if (response) {
-        setTimeout(() => {
-          window.location.assign('/login');
-          // console.log('logging out');
-        }, 2000);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  useEffect(() => {
+    verifyUser();
+  }, []);
+  // useEffect(() => console.log('context check:', authData), [authData]);
+
   return (
-    <div className="relative p-8 max-h-screen">
+    <div className={`relative max-h-screen z-0 `}>
       {resetModal && (
         <ResetPassword
-          id={adminId}
+          id={authData.userId}
           resetModal={resetModal}
           setResetModal={setResetModal}
         />
       )}
-      <div className="lg:hidden mb-4 flex gap-2">
-        {/* <button
-          onClick={() => {
-            setResetModal(true);
-          }}
-          className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
-        >
-          Reset Password
-        </button> */}
-        {/* <button
-          onClick={() => {
-            handleLogout();
-          }}
-          className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
-        >
-          Logout
-        </button> */}
-      </div>
-      <div className="flex justify-between items-center">
-        <h1 className="text-4xl font-bold">Registered Business</h1>
-        <div className="hidden lg:flex gap-2">
-          {/* <button
-            onClick={() => {
-              setResetModal(true);
-            }}
-            className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
-          >
-            Reset Password
-          </button> */}
-          {/* <button
-            onClick={() => {
-              handleLogout();
-            }}
-            className="px-3 py-2 font-medium bg-white rounded-lg text-[#1A1919]"
-          >
-            Logout
-          </button> */}
+      {createForm && (
+        <CreateUser createForm={createForm} setCreateForm={setCreateForm} />
+      )}
+      <div
+        className={`${
+          resetModal || createForm ? 'blur-sm pointer-events-none' : ''
+        }`}
+      >
+        <div className="flex justify-between w-full items-center text-white bg-black px-8 py-4">
+          <h1 className="text-4xl font-bold">Registered Business</h1>
+          <DropDownAdmin
+            resetModal={resetModal}
+            setResetModal={setResetModal}
+            createForm={createForm}
+            setCreateForm={setCreateForm}
+          />
+        </div>
+        <div className="p-8">
+          <DashboardGrid />
         </div>
       </div>
-      <DashboardGrid />
     </div>
   );
 };

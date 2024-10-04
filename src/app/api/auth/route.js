@@ -38,7 +38,7 @@ export async function POST(req) {
   try {
     const body = await req.json();
     const { userName, password } = body;
-    const user = await Users.findOne({ userName });
+    const user = await Users.findOne({ userName }).select('password role _id');
     if (!user) {
       throw new Error('No Such User Found');
     }
@@ -51,6 +51,13 @@ export async function POST(req) {
       id: user._id,
     });
     response.cookies.set('authKey', token, {
+      httpOnly: true,
+      path: '/',
+      sameSite: 'strict',
+      secure: true,
+      maxAge: new Date(36000),
+    });
+    response.cookies.set('userType', user.role === 'admin' ? 'admin' : 'user', {
       httpOnly: true,
       path: '/',
       sameSite: 'strict',

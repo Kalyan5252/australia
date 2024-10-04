@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import UserForm from '@/app/components/userForm';
-import { userProps } from '@/types';
+import { dataProps, userProps } from '@/types';
 import Loading from '@/app/components/Loading';
 
 const page = ({ params }: { params: { userId: string } }) => {
@@ -18,7 +18,7 @@ const page = ({ params }: { params: { userId: string } }) => {
       })
         .then((res) => res.json())
         .then((res) => {
-          console.log(res);
+          // console.log('user data:', res);
           setUserData(res);
         });
       setIsLoading(false);
@@ -26,7 +26,7 @@ const page = ({ params }: { params: { userId: string } }) => {
     getUserData();
   }, []);
   return (
-    <div className="p-8 lg:p-16 h-screen md:max-h-screen flex flex-col gap-4 relative">
+    <div className="p-8 lg:p-16 h-screen overflow-y-scroll flex flex-col gap-4 relative">
       {!isLoading ? (
         <>
           <div className="flex justify-between w-full">
@@ -48,7 +48,7 @@ const page = ({ params }: { params: { userId: string } }) => {
               {userData?.email}
             </h2>
           </div>
-          <UserForm id={userId} />
+          {userData && <UserForm id={userId} userData={userData} />}
         </>
       ) : (
         <div className="h-screen flex justify-center">

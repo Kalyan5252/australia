@@ -1,6 +1,22 @@
 import React, { useState } from 'react';
 import { IoCloseOutline } from 'react-icons/io5';
 import Loading from './Loading';
+import { ToastContainer, toast, Flip } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+const Toastify = (message: string, stype: 'success' | 'error') => {
+  return toast(message, {
+    position: 'top-center',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    type: stype,
+    pauseOnHover: false,
+    draggable: true,
+    theme: 'light',
+    transition: Flip,
+  });
+};
 
 const ContactUs = ({ userId }: { userId: string }) => {
   const [contactForm, setContactForm] = useState(false);
@@ -17,8 +33,17 @@ const ContactUs = ({ userId }: { userId: string }) => {
       body: JSON.stringify({ ...userData, userId: userId }),
     })
       .then((res) => res.json())
-      .then((res) => {})
-      .catch((err) => console.log(err));
+      .then((res) => {
+        if (res.status === 'success') {
+          Toastify('Email Sent', 'success');
+        } else {
+          Toastify('Cannot send a mail', 'error');
+        }
+      })
+      .catch((err) => {
+        Toastify('Cannot send a mail', 'error');
+        // console.log(err);
+      });
     setIsLoading(false);
     setContactForm(false);
   };
@@ -28,6 +53,7 @@ const ContactUs = ({ userId }: { userId: string }) => {
         contactForm ? 'h-full opacity-100' : 'h-0 opacity-100'
       }`}
     >
+      <ToastContainer />
       {!contactForm ? (
         <button
           onClick={() => setContactForm(true)}

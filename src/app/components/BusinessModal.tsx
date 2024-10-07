@@ -40,7 +40,7 @@ const BusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
         }, 2000);
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 

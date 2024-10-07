@@ -1,6 +1,7 @@
 'use client';
 import React, { useRef, useState } from 'react';
 import { FaUpload } from 'react-icons/fa6';
+import Image from 'next/image';
 
 interface otherInputProps {
   label: string;
@@ -47,8 +48,23 @@ otherInputProps) => {
           className="border-[1px] rounded-lg resize-none border-gray-800 p-2 outline-none"
         ></textarea>
       ) : (
-        <div className="flex bg-transparent border-dashed border-[1px] border-gray-800 p-2 rounded-lg bg-[#1A1919] items-center outline-none text-gradient1">
-          <label className=" text-gray-800 outline-none w-full">
+        <div className="min-h-[40px] flex bg-transparent border-dashed border-[1px] border-gray-800 p-2 py-1 rounded-lg bg-[#1A1919] items-center outline-none text-gradient1">
+          <div className="max-h-10 max-w-10 rounded-full">
+            {((value !== '' && value) || selectedFile !== null) && (
+              <Image
+                src={
+                  selectedFile
+                    ? URL.createObjectURL(selectedFile)
+                    : `https://pub-4dba511debbc404da50bb5d141f735bc.r2.dev/business-aus/${value}`
+                }
+                alt=""
+                height={100}
+                width={100}
+                className="rounded-full mr-4 max-h-10 max-w-10"
+              />
+            )}
+          </div>
+          <label className=" text-gray-800 overflow-hidden max-w-[29ch] mr-4 outline-none w-full">
             {selectedFile
               ? selectedFile.name
               : typeof value === 'string'

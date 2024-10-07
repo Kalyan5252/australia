@@ -84,7 +84,7 @@ export async function POST(req) {
     await sendMail(newUser._id, newUser.email, password, newUser.userName);
     return NextResponse.json({ status: 'success' });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return NextResponse.json(
       { status: 'failure', message: error.message },
       { status: 400 }

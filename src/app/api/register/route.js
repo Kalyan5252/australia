@@ -22,8 +22,6 @@ const sendMail = async (id, to, password, userName) => {
           </p>
           <a href='${DOMAIN}/users/registrationForm/${id}'>${DOMAIN}/users/registrationForm/${id}</a>
           <p>Email: ${to}</p>
-          <p>UserName: ${userName}</p>
-          <p>Password: ${password}</p>
           <p>Please use the above Url to Register your Business.</p>
           </div>`,
   });
@@ -35,7 +33,7 @@ export async function POST(req) {
     // console.log({ email, userName });
     if (!email && !mobile && !abn)
       throw new Error('Please Provide Credentials');
-    console.log({ email, mobile, abn });
+    // console.log({ email, mobile, abn });
     const userName = email.split('@').slice(0, -1).join('');
     const password = crypto.randomBytes(3).toString('hex');
     const newUser = await Users.create({
@@ -47,7 +45,7 @@ export async function POST(req) {
     });
     if (!newUser)
       throw new Error('Cannot create Account. Please Try Again Later');
-    console.log(newUser);
+    // console.log(newUser);
     await sendMail(newUser._id, email, password, userName);
     return NextResponse.json({ status: 'success' });
   } catch (error) {

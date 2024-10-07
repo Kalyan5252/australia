@@ -2,8 +2,32 @@ import { NextResponse } from 'next/server';
 import startDb from '@/app/lib/db';
 import User from '@/models/userSchema';
 import r2 from '@/app/lib/r2';
+import { transporter, mailOptions } from '@/app/config/nodemailer';
 
 await startDb();
+
+const DOMAIN = process.env.DOMAIN;
+
+const sendMail = async (id, to, password, userName) => {
+  await transporter.sendMail({
+    ...mailOptions,
+    to,
+    subject: 'Business Registration',
+    text: `Bussiness Registration Successful`,
+    html: `
+          <div>
+          <h1>Bussiness Registration Successful</h1>
+          <p>
+          Click on the link below to Login 
+          </p>
+          <a href='${DOMAIN}/login'>${DOMAIN}/login</a>
+          <p>Email: ${to}</p>
+          <p>UserName: ${userName}</p>
+          <p>Password: ${password}</p>
+          <p>Please use the above Credentials to Login your Business.</p>
+          </div>`,
+  });
+};
 
 export async function GET(req, context) {
   const { userId } = context.params;
@@ -79,7 +103,7 @@ export async function PATCH(req, { params }) {
     // return NextResponse.json({});
     return NextResponse.json({ status: 'success', user });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return NextResponse.json({ status: 'failure', error: error.message });
   }
 }
@@ -127,10 +151,20 @@ export async function POST(req, { params }) {
         isRegistered: true,
         // email: fields.email,
         // userName: `${fields.firstName}_${fields.lastName}`,
+      },
+      {
+        new: true,
       }
+    ).select('+password');
+    await sendMail(
+      newUser._id,
+      newUser.email,
+      newUser.password,
+      newUser.userName
     );
     return NextResponse.json(newUser, { status: 200 });
   } catch (error) {
+    // console.log(error);
     return NextResponse.json({ message: error.message }, { status: 400 });
   }
 }

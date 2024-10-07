@@ -84,7 +84,7 @@ const UpdateForm = ({
       })
         .then((res) => res.json())
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.status !== 'success') {
             toast('❌ Cannot Update. Try Again Later..', {
               position: 'top-center',

@@ -12,7 +12,7 @@ export async function PATCH(req, context) {
     await user.save({ validateBeforeSave: false });
     return NextResponse.json({ message: 'success' });
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return NextResponse.json({ message: error.message }, { status: 400 });
   }
 }

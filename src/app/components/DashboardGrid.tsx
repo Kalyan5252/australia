@@ -48,9 +48,11 @@ import { Payment } from '@/types';
 
 export const columns: ColumnDef<userProps>[] = [
   {
-    accessorKey: '_id',
-    header: () => <h1 className="text-lg p-2 font-medium">Id</h1>,
-    cell: ({ row }) => <div className="capitalize p-2 ">{row.index + 1}</div>,
+    accessorKey: 'abn',
+    header: () => <h1 className="text-lg p-2 font-medium">ABN Id</h1>,
+    cell: ({ row }) => (
+      <div className="capitalize p-2 ">{row.original.abn}</div>
+    ),
   },
   {
     // accessorKey: 'data.firstName',
@@ -137,7 +139,7 @@ const DashboardGrid = () => {
       const res = await fetch('/api/users', { method: 'GET' });
       if (res.ok) {
         const response = await res.json();
-        console.log(response);
+        // console.log(response);
         setData(response);
       }
     };
@@ -173,7 +175,7 @@ const DashboardGrid = () => {
     },
   });
   //   table.setPageSize(9);
-  console.log('page c:', table.getState().pagination);
+  // console.log('page c:', table.getState().pagination);
 
   return (
     <div className="w-full h-full">
@@ -283,14 +285,14 @@ const DashboardGrid = () => {
           </div>
         </div>
         <div className="flex items-center gap-4 text-gray-500">
-          <div className="p-1 px-2 flex gap-1 rounded-lg shadow-sm border-[1px] border-gray-300">
+          <div className="p-1 px-3 flex gap-1 rounded-lg font-medium border-[1px] text-sm border-gray-200">
             <p>{table.getState().pagination.pageIndex + 1} / </p>
             <p>{table.getPageCount()}</p>
           </div>
           <select
             name=""
             id=""
-            className="p-1 px-2 rounded-lg shadow-sm border-[1px] border-gray-300"
+            className="p-1 px-3 rounded-lg focus:shadow-sm border-[1px] border-gray-200 text-sm"
             onChange={(e) => setRecordsCount(parseInt(e.target.value))}
           >
             <option value="50">50</option>

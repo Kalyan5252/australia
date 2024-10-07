@@ -111,7 +111,7 @@ const userForm = ({ id, userData }: { id: string; userData: userProps }) => {
               });
             }
           } else {
-            toast('Registered Successfully', {
+            toast('Registered Successfully. Check Your Mail', {
               position: 'top-center',
               autoClose: 1000,
               pauseOnHover: false,
@@ -127,7 +127,7 @@ const userForm = ({ id, userData }: { id: string; userData: userProps }) => {
             }, 2000);
           }
           setIsSuccess(true);
-          // window.scrollTo(0, 0);
+          window.scrollTo(0, 0);
           // setUserData({
           //   userName: res.userName,
           //   password: res.password,
@@ -175,6 +175,7 @@ const userForm = ({ id, userData }: { id: string; userData: userProps }) => {
                 value={item.value}
                 required={item.required || false}
                 key={index}
+                isEditable={item?.isEditable || true}
                 pattern={item?.pattern !== '' ? item.pattern : ''}
               />
             )

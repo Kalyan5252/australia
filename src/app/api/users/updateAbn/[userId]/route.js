@@ -13,7 +13,7 @@ export async function PATCH(req, context) {
     // user.data.abn = abn;
     user.abn = abn;
     const updatedData = data;
-    console.log('Updated User:', updatedData);
+    // console.log('Updated User:', updatedData);
     await user.save({ validateBeforeSave: false });
     await Users.findByIdAndUpdate(
       { _id: userId },

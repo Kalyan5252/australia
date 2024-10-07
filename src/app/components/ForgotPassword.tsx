@@ -26,7 +26,9 @@ const ForgotPassword = ({
         }),
       })
         .then((res) => res.json())
-        .then((res) => console.log(res));
+        .then((res) => {
+          // console.log(res)
+        });
       toast('A Reset mail was sent to your Email', {
         position: 'top-center',
         autoClose: 3000,
@@ -51,7 +53,7 @@ const ForgotPassword = ({
         theme: 'light',
         transition: Flip,
       });
-      console.log(error);
+      // console.log(error);
     }
     setIsSending(false);
   };
@@ -66,7 +68,11 @@ const ForgotPassword = ({
       >
         <div className="flex justify-between gap-16 items-start">
           <h1 className="text-2xl font-medium mb-4">Forgot Password</h1>
-          <button onClick={() => setResetWindow(false)} className="text-black">
+          <button
+            type="button"
+            onClick={() => setResetWindow(false)}
+            className="text-black"
+          >
             <IoCloseOutline size={30} />
           </button>
         </div>

@@ -62,7 +62,7 @@ const page = () => {
         const response = await res.json();
         if (response.status === 'success') {
           Toastify('Login Successful', 'success');
-          console.log(response);
+          // console.log(response);
           setAuthData({
             userType: response.role === 'admin' ? 'admin' : 'user',
             isAuthenticated: true,

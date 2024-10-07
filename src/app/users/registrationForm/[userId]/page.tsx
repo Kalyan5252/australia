@@ -18,7 +18,9 @@ const page = ({ params }: { params: { userId: string } }) => {
       })
         .then((res) => res.json())
         .then((res) => {
-          // console.log('user data:', res);
+          if (res?.isRegistered) {
+            window.location.assign('/login');
+          }
           setUserData(res);
         });
       setIsLoading(false);

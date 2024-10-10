@@ -15,7 +15,7 @@ export async function POST(req) {
       ...mailOptions,
       to,
       subject: 'Business Registration',
-      text: `reset url:${DOMAIN}/users/registrationForm/${user.id}`,
+      text: `reset url:${DOMAIN}users/registrationForm/${user.id}`,
       html: `
           <div>
           <h1>Reset Your Password</h1>

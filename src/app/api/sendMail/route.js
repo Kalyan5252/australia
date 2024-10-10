@@ -35,7 +35,7 @@ export async function POST(req) {
       ...mailOptions,
       to,
       subject: 'Reset Password',
-      text: `reset url:${DOMAIN}/users/resetPassword/token/${resetToken}`,
+      text: `reset url:${DOMAIN}users/resetPassword/token/${resetToken}`,
       html: `
         <div>
         <h1>Reset Your Password</h1>

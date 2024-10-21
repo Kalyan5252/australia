@@ -4,13 +4,13 @@ const EMAIL = process.env.NODEMAILER_EMAIL;
 const PASS = process.env.NODEMAILER_PASS;
 
 export const transporter = nodemailer.createTransport({
-  service: 'html',
+  service: 'Gmail',
   auth: {
     user: EMAIL,
     pass: PASS,
   },
-  host: 'smtp.gmail.com', // Ensure this is correct
-  port: 587,
+  // host: 'smtp.gmail.com', // Ensure this is correct
+  // port: 587,
   secure: false, // Use TLS
   tls: {
     rejectUnauthorized: false, // Prevent SSL certificate issues

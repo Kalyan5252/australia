@@ -27,7 +27,7 @@ const page = ({ params }: { params: { id: string } }) => {
   }, []);
 
   return (
-    <div className="h-screen relative">
+    <div className="h-screen relative overflow-hidden">
       {isLoading ? (
         <div className="h-full w-full flex justify-center items-center">
           <Loading />

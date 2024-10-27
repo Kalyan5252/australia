@@ -135,6 +135,7 @@ const Form = () => {
                 label={item.label}
                 placeholder={item.placeholder}
                 type={item.type}
+                required={item?.required || true}
                 onchange={handleInputChange}
                 key={index}
                 value={item.value !== '' ? item.value : undefined}

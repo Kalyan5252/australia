@@ -41,6 +41,7 @@ const page = () => {
           isAuthenticated: true,
           userId: response.id,
         });
+
         response.role === 'admin'
           ? router.push('/dashboard')
           : router.push(`/userBusiness/${response.id}`);
@@ -68,10 +69,12 @@ const page = () => {
             isAuthenticated: true,
             userId: response.id,
           });
-
+          console.log(response);
           response.role === 'admin'
             ? router.push('/dashboard')
-            : router.push(`/userBusiness/${response.id}`);
+            : response.isRegistered
+            ? router.push(`/userBusiness/${response.id}`)
+            : router.push(`/users/registrationForm/${response.id}`);
         } else {
           return Toastify('Authentication Failed', 'error');
         }

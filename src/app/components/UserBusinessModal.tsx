@@ -26,7 +26,7 @@ interface BusinessModalProps {
 const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
   const [updateForm, setUpdateForm] = useState(false);
   const [resetModal, setResetModal] = useState(false);
-  const [abnModal, setAbnModal] = useState(false);
+  // const [abnModal, setAbnModal] = useState(false);
   const { authData, setAuthData } = useAuth();
   const { verifyRole } = useVerifyUser();
 
@@ -67,16 +67,16 @@ const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
           setResetModal={setResetModal}
         />
       )}
-      {abnModal && (
+      {/* {abnModal && (
         <UpdateAbn
           id={data._id}
           abnModal={abnModal}
           setAbnModal={setAbnModal}
         />
-      )}
+      )} */}
       <div
         className={`${
-          resetModal || updateForm || abnModal
+          resetModal || updateForm
             ? 'blur-sm overflow-y-hidden'
             : 'blur-0 overflow-y-scroll'
         }`}
@@ -103,8 +103,6 @@ const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
             setUpdateForm={setUpdateForm}
             resetModal={resetModal}
             setResetModal={setResetModal}
-            abnModal={abnModal}
-            setAbnModal={setAbnModal}
           />
         </div>
         <div className="p-8 lg:p-16 flex flex-col gap-12">
@@ -159,7 +157,7 @@ const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
                 <p>{data.data?.address}</p>
                 <p>
                   {data.data?.city} {data.data?.city && ','} {data.data?.state}{' '}
-                  {data.data?.state && ','} {data.data?.zipcode}
+                  {data.data?.state && ','} {data.data?.postalCode}
                 </p>
               </div>
             </div>

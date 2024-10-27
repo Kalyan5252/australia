@@ -38,7 +38,9 @@ export async function POST(req) {
   try {
     const body = await req.json();
     const { userName, password } = body;
-    const user = await Users.findOne({ userName }).select('password role _id');
+    const user = await Users.findOne({ userName }).select(
+      'password isRegistered role _id'
+    );
     if (!user) {
       throw new Error('No Such User Found');
     }
@@ -49,6 +51,7 @@ export async function POST(req) {
       message: 'Login Successfully',
       role: user.role,
       id: user._id,
+      isRegistered: user.isRegistered,
     });
     response.cookies.set('authKey', token, {
       httpOnly: true,

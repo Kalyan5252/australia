@@ -16,15 +16,15 @@ const DropDown = ({
   setUpdateForm,
   resetModal,
   setResetModal,
-  abnModal,
-  setAbnModal,
-}: {
+}: // abnModal,
+// setAbnModal,
+{
   updateForm: boolean;
   setUpdateForm: (value: boolean) => void;
   resetModal: boolean;
   setResetModal: (value: boolean) => void;
-  abnModal: boolean;
-  setAbnModal: (value: boolean) => void;
+  // abnModal: boolean;
+  // setAbnModal: (value: boolean) => void;
 }) => {
   const { authData, setAuthData } = useAuth();
 
@@ -46,7 +46,7 @@ const DropDown = ({
           >
             Edit
           </DropdownMenuItem>
-          {authData.userType === 'admin' && (
+          {/* {authData.userType === 'admin' && (
             <DropdownMenuItem
               className="cursor-pointer"
               onClick={() => {
@@ -55,7 +55,7 @@ const DropDown = ({
             >
               Update ABN
             </DropdownMenuItem>
-          )}
+          )} */}
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() => {

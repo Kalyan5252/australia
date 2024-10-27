@@ -5,6 +5,7 @@ import OtherInputs from './OtherInputs';
 import { FaArrowRight } from 'react-icons/fa';
 import Loading from './Loading';
 import InfoModal from './InfoModal';
+import { FORM } from '@/constants/index';
 
 import { ToastContainer, toast, Flip } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -12,41 +13,31 @@ import 'react-toastify/dist/ReactToastify.css';
 import { FormItem, dataProps, userProps } from '@/types';
 
 const userForm = ({ id, userData }: { id: string; userData: userProps }) => {
-  const [formData, setFormData] = useState<FormItem[]>([]);
+  const [formData, setFormData] = useState<FormItem[]>(FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  // const [userData, setUserData] = useState({
-  //   userName: '',
-  //   password: '',
-  // });
 
   useEffect(() => {
-    const getFormData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch('/api/form', { method: 'GET' });
-        const data: FormItem[] = await response.json();
-        // console.log('test check:', data);
-        // console.log('user check from 2:', userData);
-        // const updatedDataFields = data.map((field) => {
-        //   const key = field.arkey as keyof dataProps;
-        //   field.value = userData?.data[key] ?? '';
-        //   console.log('key check', key, userData?.data[key]);
-        //   // console.log('fied:', field);
-        //   return field;
-        // });
-        // console.log('updated Fields: ', updatedDataFields);
-        setFormData(
-          data.filter((doc) => !['email', 'abn'].includes(doc.arkey))
-        );
-      } catch (error) {
-        console.error('Failed to fetch form data', error);
-      }
-      setIsLoading(false);
-    };
-    getFormData();
-  }, []);
+    setFormData(FORM.filter((item) => !['abn', 'email'].includes(item.arkey)));
+  }, [FORM]);
+
+  // useEffect(() => {
+  //   const getFormData = async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       const response = await fetch('/api/form', { method: 'GET' });
+  //       const data: FormItem[] = await response.json();
+  //       setFormData(
+  //         data.filter((doc) => !['email', 'abn'].includes(doc.arkey))
+  //       );
+  //     } catch (error) {
+  //       console.error('Failed to fetch form data', error);
+  //     }
+  //     setIsLoading(false);
+  //   };
+  //   getFormData();
+  // }, []);
 
   const handleInputChange = (
     key: string,
@@ -163,6 +154,7 @@ const userForm = ({ id, userData }: { id: string; userData: userProps }) => {
                 type={item.type}
                 onchange={handleInputChange}
                 key={index}
+                required={item.required || true}
                 value={item.value !== '' ? item.value : undefined}
               />
             ) : (

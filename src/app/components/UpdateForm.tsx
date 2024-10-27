@@ -3,6 +3,7 @@ import { FormItem } from '../../types';
 import InputField from './InputField';
 import OtherInputs from './OtherInputs';
 import Loading from './Loading';
+import { FORM } from '@/constants/index';
 import { IoCloseOutline } from 'react-icons/io5';
 import { useRouter } from 'next/navigation';
 import { userProps, dataProps } from '../../types';
@@ -20,29 +21,38 @@ const UpdateForm = ({
   setUpdateForm: (id: boolean) => void;
   userData: userProps;
 }) => {
-  const [formData, setFormData] = useState<FormItem[]>([]);
+  const [formData, setFormData] = useState<FormItem[]>(FORM);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
   useEffect(() => {
-    const getFormData = async () => {
-      try {
-        const response = await fetch('/api/form', { method: 'GET' });
-        const data: FormItem[] = await response.json();
+    const updatedFormFields = formData.map((field) => {
+      const key = field.arkey as keyof dataProps;
+      field.value = userData.data[key] ?? ''; // Find the value from userData based on arkey
+      return field;
+    });
+    setFormData(updatedFormFields);
+  }, [userData]);
+  // useEffect(() => {
+  //   const getFormData = async () => {
+  //     try {
+  //       const response = await fetch('/api/form', { method: 'GET' });
+  //       const data: FormItem[] = await response.json();
 
-        const updatedFormFields = data.map((field) => {
-          const key = field.arkey as keyof dataProps;
-          field.value = userData.data[key] ?? ''; // Find the value from userData based on arkey
-          return field;
-        });
+  //       const updatedFormFields = data.map((field) => {
+  //         const key = field.arkey as keyof dataProps;
+  //         field.value = userData.data[key] ?? ''; // Find the value from userData based on arkey
+  //         return field;
+  //       });
 
-        // console.log('Updated Form Item:', updatedFormFields);
-        setFormData(updatedFormFields);
-      } catch (error) {
-        console.error('Failed to fetch form data', error);
-      }
-    };
-    getFormData();
-  }, []);
+  //       // console.log('Updated Form Item:', updatedFormFields);
+  //       setFormData(updatedFormFields);
+  //     } catch (error) {
+  //       console.error('Failed to fetch form data', error);
+  //     }
+  //   };
+  //   getFormData();
+  // }, []);
 
   // useEffect(() => console.log('updated form data', formData), [formData]);
 
@@ -166,6 +176,7 @@ const UpdateForm = ({
                   onchange={handleInputChange}
                   key={index}
                   value={item.value}
+                  required={item.required || true}
                 />
               ) : (
                 <InputField
@@ -173,7 +184,7 @@ const UpdateForm = ({
                   placeholder={item.placeholder}
                   type={item.type}
                   onchange={handleInputChange}
-                  required={item.required || false}
+                  required={item?.required || true}
                   key={index}
                   value={item.value}
                   options={item?.options}

@@ -9,7 +9,7 @@ export interface FormItem {
   value: string | File | undefined;
   placeholder: string;
   arkey: string;
-  options: optionsProps[];
+  options?: optionsProps[];
   required?: boolean;
   pattern?: string;
   isEditable?: boolean;
@@ -40,7 +40,7 @@ export interface dataProps {
   address?: string;
   state?: string;
   city?: string;
-  zipcode?: string;
+  postalCode?: string;
   street?: string;
   abn: string;
 }

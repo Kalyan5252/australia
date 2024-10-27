@@ -8,6 +8,8 @@ await startDb();
 
 const DOMAIN = process.env.DOMAIN;
 
+// <a href='${DOMAIN}/users/registrationForm/${id}'>${DOMAIN}/users/registrationForm/${id}</a>
+
 const sendMail = async (id, to, password, userName) => {
   await transporter.sendMail({
     ...mailOptions,
@@ -18,10 +20,13 @@ const sendMail = async (id, to, password, userName) => {
           <div>
           <h1>Register your Business</h1>
           <p>
-          Click on the link below to Register your Business
+          Click on the link below to login and register your Business
           </p>
-          <a href='${DOMAIN}/users/registrationForm/${id}'>${DOMAIN}/users/registrationForm/${id}</a>
+          <a href='${DOMAIN}/login'>${DOMAIN}/login</a>
           <p>Email: ${to}</p>
+          <p>Please check your Credentials below to login and get your Business Details.</p>
+          <p>UserName: <span style="font-weight: 800;">${userName}</span></p>
+          <p>Password: <span style="font-weight: 800;">${password}</span></p>
           <p>Please use the above Url to Register your Business.</p>
           </div>`,
   });

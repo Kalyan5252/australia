@@ -9,6 +9,7 @@ interface otherInputProps {
   type: string;
   onchange: (key: string, value: string | File | undefined) => void;
   value?: string | File | undefined;
+  required: boolean;
   //   bodyKey: string;
   // type: 'textarea' | 'file';
 }
@@ -18,6 +19,7 @@ const OtherInputs = ({
   placeholder,
   type,
   onchange,
+  required,
   value,
 }: //   bodyKey,
 otherInputProps) => {
@@ -44,11 +46,12 @@ otherInputProps) => {
           rows={5}
           onChange={(e) => onchange(label, e.target.value)}
           placeholder={placeholder}
+          required={required}
           value={typeof value === 'string' ? value : ''}
           className="border-[1px] rounded-lg resize-none border-gray-800 p-2 outline-none"
         ></textarea>
       ) : (
-        <div className="min-h-[40px] flex bg-transparent border-dashed border-[1px] border-gray-800 p-2 py-1 rounded-lg bg-[#1A1919] items-center outline-none text-gradient1">
+        <div className="min-h-[40px] flex justify-between bg-transparent border-dashed border-[1px] border-gray-800 p-2 py-1 rounded-lg bg-[#1A1919] items-center outline-none text-gradient1">
           <div className="max-h-10 max-w-10 rounded-full">
             {((value !== '' && value) || selectedFile !== null) && (
               <Image

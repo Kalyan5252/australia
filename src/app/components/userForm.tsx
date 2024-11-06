@@ -114,7 +114,7 @@ const userForm = ({ id, userData }: { id: string; userData: userProps }) => {
               closeOnClick: true,
             });
             setTimeout(() => {
-              window.location.assign('/login');
+              window.location.assign(`/userBusiness/${id}`);
             }, 2000);
           }
           setIsSuccess(true);

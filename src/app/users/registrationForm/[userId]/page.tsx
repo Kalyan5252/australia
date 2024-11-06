@@ -19,7 +19,7 @@ const page = ({ params }: { params: { userId: string } }) => {
         .then((res) => res.json())
         .then((res) => {
           if (res?.isRegistered) {
-            window.location.assign('/login');
+            window.location.assign(`/userBusiness/${userId}`);
           }
           setUserData(res);
         });
@@ -40,6 +40,9 @@ const page = ({ params }: { params: { userId: string } }) => {
               <h2 className="hidden lg:block italic text-sm">
                 {userData?.email}
               </h2>
+              <h2 className="hidden lg:block text-sm">
+                <span className="font-medium">ABN:</span> {userData?.abn}
+              </h2>
             </div>
           </div>
           <div className="flex flex-col gap-1">
@@ -48,6 +51,9 @@ const page = ({ params }: { params: { userId: string } }) => {
             </h2>
             <h2 className="lg:hidden block italic text-sm">
               {userData?.email}
+            </h2>
+            <h2 className="lg:hidden block text-sm">
+              <span className="font-medium">ABN:</span> {userData?.abn}
             </h2>
           </div>
           {userData && <UserForm id={userId} userData={userData} />}

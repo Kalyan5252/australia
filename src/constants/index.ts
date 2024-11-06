@@ -109,7 +109,7 @@ export const FORM = [
     options: [],
     value: '',
     required: true,
-    placeholder: 'Enter zip code',
+    placeholder: 'Enter postal code',
     arkey: 'postalCode',
     pattern: '^[0-9]{4}$',
     isEditable: true,

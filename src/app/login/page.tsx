@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import ForgotPassword from '../components/ForgotPassword';
 import { useAuth } from '@/providers/authProvider';
+import axios from 'axios';
 
 const Toastify = (message: string, stype: 'success' | 'error') => {
   return toast(message, {
@@ -55,30 +56,26 @@ const page = () => {
 
   const handleSubmit = async () => {
     try {
-      const res = await fetch('/api/auth/', {
-        method: 'POST',
-        body: JSON.stringify(userData),
-      });
-      if (res.ok) {
-        const response = await res.json();
-        if (response.status === 'success') {
+      console.log('userData:', userData);
+      await axios.post('/api/auth/', userData).then((res) => {
+        console.log('res:', res);
+        if (res.data?.status === 'success') {
           Toastify('Login Successful', 'success');
           // console.log(response);
           setAuthData({
-            userType: response.role === 'admin' ? 'admin' : 'user',
+            userType: res.data?.role === 'admin' ? 'admin' : 'user',
             isAuthenticated: true,
-            userId: response.id,
+            userId: res.data?.id,
           });
-          console.log(response);
-          response.role === 'admin'
+          res.data?.role === 'admin'
             ? router.push('/dashboard')
-            : response.isRegistered
-            ? router.push(`/userBusiness/${response.id}`)
-            : router.push(`/users/registrationForm/${response.id}`);
+            : res.data?.isRegistered
+            ? router.push(`/userBusiness/${res.data?.id}`)
+            : router.push(`/users/registrationForm/${res.data?.id}`);
         } else {
           return Toastify('Authentication Failed', 'error');
         }
-      }
+      });
     } catch (error) {
       return Toastify('❌ Error Occured..', 'error');
     }

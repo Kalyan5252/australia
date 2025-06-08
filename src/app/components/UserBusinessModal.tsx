@@ -87,7 +87,7 @@ const UserBusinessModal: React.FC<BusinessModalProps> = ({ data }) => {
           <div className="flex items-center gap-4">
             {data?.data?.businessLogo !== '' && data?.data?.businessLogo && (
               <Image
-                src={`https://pub-4dba511debbc404da50bb5d141f735bc.r2.dev/business-aus/${data.data.businessLogo}`}
+                src={data.data.businessLogo}
                 alt="business Logo"
                 height={50}
                 width={50}

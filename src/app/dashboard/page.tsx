@@ -6,6 +6,8 @@ import DropDownAdmin from '../components/DropDownAdmin';
 import CreateUser from '../components/CreateUser';
 import { useAuth } from '@/providers/authProvider';
 import useVerifyUser from '../hooks/VerifyUser';
+import { cn } from '@/lib/utils';
+import dmSerif from '@/fonts/dmSerif';
 
 const page = () => {
   const [resetModal, setResetModal] = useState(false);
@@ -37,7 +39,9 @@ const page = () => {
         }`}
       >
         <div className="flex justify-between w-full items-center text-white bg-black px-8 py-4">
-          <h1 className="text-4xl font-bold">Registered Business</h1>
+          <h1 className={cn(dmSerif.className, 'text-4xl font-bold')}>
+            Registered Business
+          </h1>
           <DropDownAdmin
             resetModal={resetModal}
             setResetModal={setResetModal}
